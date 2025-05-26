@@ -2,12 +2,12 @@ import Button from "./Button";
 
 export default function Header() {
     return (
-        <header id="header" className="fixed top-0 left-0 w-full border-b border-gray-200 py-4 bg-white z-10">
+        <header id="header" className="fixed w-full border-b border-gray-200 py-4 bg-white ">
             <nav className="max-w-6xl mx-auto px-4 flex items-center justify-between">
                 {/* Logo */}
                 <div className="flex items-center space-x-2">
                     <div className="logo rounded-full p-2 bg-gray-200">
-                        <span className="text-lg">🌟</span>
+                        <span className="text-lg"></span>
                     </div>
                     <span className="logo-text text-xl font-semibold">Groomify</span>
                 </div>

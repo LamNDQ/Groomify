@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
 :root {
-  --first-color: #58655A;
+  --first-color: #f96b18;
   --secondary-color: #575757;
-  --text-color: #262626;
-  --background: #ffffff;
+  --text-color: #333333;
+  --background: #f5f2f0;
   --foreground: #171717;
 }
 
@@ -48,10 +48,10 @@ body {
 /* About Us */
 /* Gallery */
 
+
 .animate-scroll {
   display: flex;
   animation: scroll 20s linear infinite;
-  /* Slower animation */
 }
 
 @keyframes scroll {
@@ -60,8 +60,8 @@ body {
   }
 
   100% {
-    transform: translateX(-50%);
-    /* Move half of the total width */
+    transform: translateX(-100%);
+    /* Move left by 100% of the container */
   }
 }
 
