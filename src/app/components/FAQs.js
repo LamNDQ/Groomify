@@ -14,7 +14,10 @@ export default function FAQs() {
                 />
             </div>
             <div className="grid col-span-1">
-                <p className="text-gray-600 mb-4">FAQs</p>
+                <div className="bg-gray-100 p-2 rounded-full border border-gray-300 mb-6 text-center flex items-center justify-center">
+                    <i className="fas fa-home mr-2"></i>
+                    <h3 className="">FAQs</h3>
+                </div>
                 <h2 className="text-2xl font-semibold mb-2">Frequently asked questions</h2>
                 <div className="mb-4">
                     <h3 className="text-lg font-medium">How long does a grooming session take?</h3>
