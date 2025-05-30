@@ -1,11 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import Link from 'next/link';
-import Button from '@/app/components/Button';
-import Input from '@/app/components/Input';
+import Button from '@/app/components/shared/Button';
+import Input from '@/app/components/shared/Input';
+import { FaPaw } from 'react-icons/fa';
 
 export default function LoginPage() {
     const router = useRouter();
@@ -34,27 +35,35 @@ export default function LoginPage() {
     };
 
     return (
-        <div className="min-h-screen flex">
+        <div className="max-h-screen flex">
             {/* Left Image */}
-            <div className="w-1/2 bg-[url('https://dcgll7qxxap6x.cloudfront.net/p/0/2024/9/118cd52e-1bb2-4b94-8f8c-1400be58a0f3.png')] hidden md:block relative">
-            </div>
+            <Image
+                src="/images/hero-image.png"
+                alt="Hero Image"
+                layout="responsive"
+                width={400}
+                height={300}
+                className=" rounded-4xl md:block object-cover"
+            />
+            {/* w-1/2 hidden md:block object-cover */}
 
             {/* Right Login Panel */}
             <div className="w-full md:w-1/2 flex flex-col justify-center items-center bg-gray-50 px-6 py-12">
                 <div className="w-full max-w-md space-y-8">
                     {/* Logo */}
                     <div className="flex justify-center">
-                        <Image src="/moego-logo.png" alt="Logo" width={100} height={30} />
+                        <FaPaw className="text-6xl text-[var(--first-color)] mb-2" />
+
                     </div>
 
                     {/* Welcome Text */}
                     <div className="text-center">
                         <h2 className="text-2xl font-semibold mb-2">Welcome back!</h2>
                         <p className="text-gray-600">
-                            MoeGo is made with <span className="text-red-500">❤️</span> in <span className="text-yellow-500">🌞</span> California, to empower pet businesses all over the world.
+                            Groomify is made with <span className="text-red-500">❤️</span> in <span className="text-yellow-500">🌞</span> VietNam, to empower pet businesses all over the world.
                         </p>
                     </div>
-                    <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-xl p-6 space-y-4">
+                    <form onSubmit={handleSubmit} className="bg-white rounded-xl p-6 space-y-4">
                         <Input
                             type="email"
                             placeholder="Email"
@@ -69,16 +78,16 @@ export default function LoginPage() {
                             value={formData.password}
                             onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                         />
-                        <Button
-                            href='/'
-                            type="submit"
-                            text="Log in"
-                            className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold"
-                        />
                     </form>
+                    <Button
+                        href='/'
+                        type="submit"
+                        text="Log in"
+                        className="flex items-center justify-center"
+                    />
                     {/* Sign up link */}
                     <p className="text-center text-sm text-gray-600">
-                        Not a Groomify member? <Link href="/auth/signup" className="text-orange-500 hover:underline">
+                        Not a Groomify member? <Link href="/auth/signup" className="text-[var(--first-color)] hover:underline">
                             Sign up
                         </Link>
                     </p>

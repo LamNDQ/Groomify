@@ -3,9 +3,10 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import Button from '@/app/components/Button';
-import Input from '@/app/components/Input';
+import Button from '@/app/components/shared/Button';
+import Input from '@/app/components/shared/Input';
 import Link from 'next/link';
+import { FaPaw } from 'react-icons/fa';
 
 export default function SignupPage() {
     const router = useRouter();
@@ -42,17 +43,22 @@ export default function SignupPage() {
     };
 
     return (
-        <div className="min-h-screen flex">
+        <div className="max-h-screen flex">
             {/* Left Image */}
-            <div className="w-1/2 bg-[url('/images/signup-bg.jpg')] hidden md:block relative">
-            </div>
-
+            <Image
+                src="/images/hero-image.png"
+                alt="Hero Image"
+                layout="responsive"
+                width={400}
+                height={300}
+                className=" rounded-4xl md:block object-cover"
+            />
             {/* Right Signup Panel */}
             <div className="w-full md:w-1/2 flex flex-col justify-center items-center bg-gray-50 px-6 py-12">
                 <div className="w-full max-w-md space-y-8">
                     {/* Logo */}
                     <div className="flex justify-center">
-                        <Image src="/groomify-logo.png" alt="Groomify Logo" width={100} height={30} />
+                        <FaPaw className="text-6xl text-[var(--first-color)] mb-2" />
                     </div>
 
                     {/* Welcome Text */}
@@ -63,7 +69,7 @@ export default function SignupPage() {
                         </p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="bg-white shadow-md rounded-xl p-6 space-y-4">
+                    <form onSubmit={handleSubmit} className="bg-white rounded-xl p-6 space-y-4">
                         <Input
                             type="text"
                             placeholder="Full Name"
@@ -96,18 +102,18 @@ export default function SignupPage() {
                             onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                             required
                         />
-                        <Button
-                            href='/auth/login'
-                            type="submit"
-                            text="Sign Up"
-                            className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold"
-                        />
-                    </form>
 
+                    </form>
+                    <Button
+                        href='/auth/login'
+                        type="submit"
+                        text="Sign Up"
+                        className="flex items-center justify-center"
+                    />
                     {/* Login link */}
                     <p className="text-center text-sm text-gray-600">
                         Already have an account?{' '}
-                        <Link href="/auth/login" className="text-orange-500 hover:underline">
+                        <Link href="/auth/login" className="text-[var(--first-color)] hover:underline">
                             Log in
                         </Link>
                     </p>
