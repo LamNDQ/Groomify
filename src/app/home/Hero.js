@@ -1,8 +1,9 @@
 import Image from "next/image";
-import Button from "./Button";
+import Button from "../components/shared/Button";
+
 export default function Hero() {
     return (
-        <section id="hero" className="grid grid-cols-1 md:grid-cols-2 items-center justify-between max-w-7xl mx-auto px-6 py-16">
+        <section id="hero" className="grid grid-cols-1 md:grid-cols-2 items-center justify-between max-w-7xl mx-auto px-20 py-32">
             <div className="col-span-1 p-8">
                 <h1 className="text-6xl leading-tight">
                     Treat your pet to a luxurious <span className="span-color">grooming experience</span>
@@ -24,7 +25,7 @@ export default function Hero() {
                     layout="responsive"
                     width={500}
                     height={500}
-                    className=" rounded-lg shadow-lg"
+                    className=" rounded-4xl shadow-lg"
                 />
             </div>
         </section>
