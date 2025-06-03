@@ -11,6 +11,7 @@ import FAQs from "./home/FAQs";
 import Service from "./home/Service";
 import Packages from "./home/Packages";
 import BookingModal from "./components/modals/BookingModal";
+import Footer from "./home/Footer";
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -32,6 +33,7 @@ export default function Home() {
       <Gallery />
       <FAQs />
       <ContactUs />
+      <Footer />
 
       <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </main>
