@@ -1,4 +1,4 @@
-
+'use client';
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
@@ -48,13 +48,12 @@ const packages = [
             "Hand-blown dry for a fluffy finish",
             "Custom accessory of your choice",
         ],
-    }
+    },
 ];
 
 export default function Packages() {
     const [activePackage, setActivePackage] = useState('essential');
 
-    // Show first package by default
     useEffect(() => {
         setActivePackage('essential');
     }, []);
@@ -65,74 +64,76 @@ export default function Packages() {
                 <Tag
                     icon={FaBoxOpen}
                     text="Packages"
-                    className="w-[15%] mx-auto text-center"
+                    className="w-fit mx-auto text-center"
                 />
-                <h2 className="text-6xl text-center mb-8 w-[50%] mx-auto font-bold">
-                    Tailored packages for <span className="span-color">every pet</span>
+                <h2 className="text-4xl sm:text-5xl text-center mb-6 font-bold leading-snug">
+                    Tailored packages for <span className="text-green-600">every pet</span>
                 </h2>
-                <p className="text-gray-600 text-center mb-12 w-[50%] mx-auto">
+                <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto text-lg">
                     Whether your pet needs a quick refresh or a full spa day, we’ve got the perfect package to suit their needs.
                 </p>
 
-                {/* Package Tabs */}
-                <div className="grid grid-cols-1 md:grid-cols-3 justify-center gap-4 mb-8">
+                {/* Tabs */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
                     {packages.map((pkg) => (
                         <button
                             key={pkg.id}
                             onClick={() => setActivePackage(pkg.id)}
-                            className={`px-6 py-3 rounded-lg transition-all 
-                                ${activePackage === pkg.id
-                                    ? 'bg-green-100 text-[var(--first-color)] font-semibold'
-                                    : 'bg-white hover:bg-gray-50'}`}
+                            className={`w-full px-5 py-3 rounded-lg font-medium border transition-all duration-200
+                ${activePackage === pkg.id
+                                    ? 'bg-blue-100 border-[var(--first-color)] text-[var(--first-color)] shadow'
+                                    : 'bg-white border-gray-300 hover:border-[var(--first-color)] hover:bg-gray-50'}`}
                         >
                             {pkg.name}
                         </button>
                     ))}
                 </div>
 
-                {/* Package Cards */}
-                <div className="grid md:grid-cols-1 gap-8">
+                {/* Package Card */}
+                <div className="space-y-8">
                     {packages.map((pkg) => (
                         <div
                             key={pkg.id}
-                            className={`bg-white rounded-xl p-6 
-                                ${activePackage === pkg.id ? 'block' : 'hidden'}`}
+                            className={`bg-white rounded-2xl shadow-lg p-6 transition-all duration-300 ease-in-out
+                ${activePackage === pkg.id ? 'block' : 'hidden'}`}
                         >
-                            <div className="grid md:grid-cols-2 gap-8 transition-all duration-300 ease-in-out">
-                                <div className="relative h-[400px]">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div className="relative h-[300px] sm:h-[400px] rounded-lg overflow-hidden">
                                     <Image
                                         src={pkg.image}
                                         alt={pkg.name}
                                         fill
-                                        className="object-cover rounded-lg"
+                                        className="object-cover"
                                         priority
                                     />
                                 </div>
 
-                                <div className="space-y-4">
+                                <div className="flex flex-col justify-between">
                                     <div>
-                                        <span className="text-green-800 text-4xl font-semibold">
+                                        <span className="text-green-600 text-3xl font-bold">
                                             ${pkg.price}
                                         </span>
-                                        <h3 className="text-2xl font-bold mt-4">
+                                        <h3 className="text-2xl font-bold mt-2 text-gray-800">
                                             {pkg.name}
                                         </h3>
                                     </div>
 
-                                    <ul className="space-y-3">
+                                    <ul className="mt-6 space-y-3 text-gray-700 text-base">
                                         {pkg.features.map((feature, index) => (
-                                            <li key={index} className="flex items-center gap-2">
-                                                <FaStar className="text-yellow-600 w-4 h-4" />
+                                            <li key={index} className="flex items-start gap-3">
+                                                <FaStar className="text-yellow-500 mt-1" />
                                                 <span>{feature}</span>
                                             </li>
                                         ))}
                                     </ul>
 
-                                    <Button
-                                        text="Book Now"
-                                        href="#book"
-                                        className="button mt-6 inline-block"
-                                    />
+                                    <div className="mt-6">
+                                        <Button
+                                            text="Book Now"
+                                            href="#book"
+                                            className="button inline-block"
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
