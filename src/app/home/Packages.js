@@ -67,7 +67,7 @@ export default function Packages() {
                     text="Packages"
                     className="w-[15%] mx-auto text-center"
                 />
-                <h2 className="text-6xl text-center mb-8 w-[50%] mx-auto">
+                <h2 className="text-6xl text-center mb-8 w-[50%] mx-auto font-bold">
                     Tailored packages for <span className="span-color">every pet</span>
                 </h2>
                 <p className="text-gray-600 text-center mb-12 w-[50%] mx-auto">
