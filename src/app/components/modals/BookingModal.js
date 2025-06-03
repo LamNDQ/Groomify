@@ -1,5 +1,6 @@
 
 import { useState } from 'react'
+import Button from '../shared/Button'
 
 export default function BookingModal({ isOpen, onClose }) {
     const [formData, setFormData] = useState({
@@ -96,17 +97,11 @@ export default function BookingModal({ isOpen, onClose }) {
     if (!isOpen) return null
 
     return (
-        <div className="fixed inset-0 bg-blur bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-lg max-w-md w-full max-h-[90vh] overflow-hidden shadow-lg">
+        <div className="fixed inset-0 bg-opacity-40 backdrop-blur-sm flex items-center justify-center p-4 z-50" onClick={onClose}>
+            <div className="bg-white rounded-lg max-w-md w-full max-h-[100vh] overflow-hidden shadow-lg">
                 <div className="p-6 backdrop-blur-xs">
                     <div className="flex justify-between items-center mb-4">
-                        <h2 className="text-2xl font-bold text-gray-800">Book Grooming Service</h2>
-                        <button
-                            onClick={onClose}
-                            className="text-gray-500 hover:text-gray-700 text-2xl"
-                        >
-                            ×
-                        </button>
+                        <h2 className="text-2xl font-bold text-[var(--first-color)] mx-auto">Book Grooming Service</h2>
                     </div>
 
                     {message && (
@@ -271,21 +266,14 @@ export default function BookingModal({ isOpen, onClose }) {
                             />
                         </div>
 
-                        <div className="flex gap-3 pt-4">
-                            <button
-                                type="button"
-                                onClick={onClose}
-                                className="flex-1 py-2 px-4 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
-                            >
-                                Cancel
-                            </button>
-                            <button
+                        <div className="flex gap-3 pt-4 text-center">
+                            <Button
                                 type="submit"
                                 disabled={loading}
-                                className="flex-1 py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                                className="flex-1 py-2 px-4 text-white rounded-md disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {loading ? 'Booking...' : 'Book Appointment'}
-                            </button>
+                            </Button>
                         </div>
                     </form>
                 </div>
