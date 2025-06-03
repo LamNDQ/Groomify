@@ -1,5 +1,5 @@
 
-import Button from "../components/shared/Button";
+import Button from "../../components/common/Button";
 import { SiGmail } from "react-icons/si";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 

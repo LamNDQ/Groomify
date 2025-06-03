@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Image from 'next/image';
-import Tag from '../components/shared/Tag';
+import Tag from '../../components/common/Tag';
 import { FaQuestionCircle, FaPlus, FaTimes } from 'react-icons/fa';
 
 const faqData = [

@@ -1,6 +1,6 @@
 
 import { useState } from 'react'
-import Button from '../shared/Button'
+import Button from '../common/Button'
 
 export default function BookingModal({ isOpen, onClose }) {
     const [formData, setFormData] = useState({

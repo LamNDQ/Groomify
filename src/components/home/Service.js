@@ -1,6 +1,6 @@
-import Button from "../components/shared/Button";
+import Button from "../../components/common/Button";
 import { FaSpa, FaPaw, FaTooth, FaBrush, FaSeedling, FaHandSparkles, FaDog } from 'react-icons/fa';
-import Tag from "../components/shared/Tag";
+import Tag from "../../components/common/Tag";
 
 const services = [
     {

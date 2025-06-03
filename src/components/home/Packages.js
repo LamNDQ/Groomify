@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-import Button from "../components/shared/Button";
+import Button from "../../components/common/Button";
 import { FaStar, FaBoxOpen } from "react-icons/fa";
-import Tag from "../components/shared/Tag";
+import Tag from "../../components/common/Tag";
 
 const packages = [
     {
@@ -67,7 +67,7 @@ export default function Packages() {
                     className="w-fit mx-auto text-center"
                 />
                 <h2 className="text-4xl sm:text-5xl text-center mb-6 font-bold leading-snug">
-                    Tailored packages for <span className="text-green-600">every pet</span>
+                    Tailored packages for <span className="text-[var(--first-color)]">every pet</span>
                 </h2>
                 <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto text-lg">
                     Whether your pet needs a quick refresh or a full spa day, we’ve got the perfect package to suit their needs.

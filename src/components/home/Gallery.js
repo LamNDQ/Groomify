@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Tag from '../components/shared/Tag';
+import Tag from '../../components/common/Tag';
 import { FaMagic } from 'react-icons/fa';
 
 export default function Gallery() {

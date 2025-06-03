@@ -1,5 +1,5 @@
 import { FaHome } from 'react-icons/fa';
-import Tag from '../components/shared/Tag';
+import Tag from '../../components/common/Tag';
 
 export default function AboutUs() {
     return (

@@ -1,7 +1,7 @@
 // components/AppointmentList.js
 
 import React, { useEffect, useState } from 'react';
-import AppointmentCard from './AppointmentCard';
+import AppointmentCard from '../common/AppointmentCard';
 import { fetchBookedAppointments } from '../lib/appointments';
 
 const AppointmentList = () => {

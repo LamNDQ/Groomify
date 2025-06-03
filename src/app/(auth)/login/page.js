@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import Button from '@/app/components/shared/Button';
-import Input from '@/app/components/shared/Input';
+import Button from '../../../components/common/Button';
+import Input from '../../../components/common/Input';
 import { FaPaw } from 'react-icons/fa';
 
 export default function LoginPage() {
