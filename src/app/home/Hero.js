@@ -3,29 +3,33 @@ import Button from "../components/shared/Button";
 
 export default function Hero() {
     return (
-        <section id="hero" className="grid grid-cols-1 md:grid-cols-2 items-center justify-between max-w-7xl mx-auto px-20 py-32">
-            <div className="col-span-1 p-8">
-                <h1 className="text-6xl leading-tight">
-                    Treat your pet to a luxurious <span className="span-color">grooming experience</span>
+        <section
+            id="hero"
+            className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center max-w-7xl mx-auto px-6 md:px-12 lg:px-20 py-24"
+        >
+            <div className="text-center md:text-left px-4 md:px-0">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight tracking-tight text-balance text-gray-900">
+                    Treat your pet to a luxurious{" "}
+                    <span className="text-[var(--first-color)]">grooming experience</span>
                 </h1>
-                <p className="mt-4 text-xl">
-                    Luxury pet grooming tailored to pamper your furry companion with care, style, and comfort.
+                <p className="mt-4 text-lg sm:text-xl text-gray-600 max-w-xl mx-auto md:mx-0">
+                    Luxury pet grooming tailored to pamper your furry companion
+                    with care, style, and comfort.
                 </p>
                 <Button
                     text="Book now"
                     href="#book"
-                    className="mt-6 button inline-block"
+                    className="mt-6 inline-block px-6 py-3 text-lg transition"
                 />
             </div>
 
-            <div className="col-span-1">
+            <div className="px-4 md:px-0">
                 <Image
                     src="/images/hero-image.png"
                     alt="Hero Image"
-                    layout="responsive"
                     width={500}
                     height={500}
-                    className=" rounded-4xl shadow-lg"
+                    className="rounded-3xl shadow-xl w-full h-auto object-cover"
                 />
             </div>
         </section>

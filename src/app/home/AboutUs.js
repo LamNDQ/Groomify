@@ -3,33 +3,40 @@ import Tag from '../components/shared/Tag';
 
 export default function AboutUs() {
     return (
-        <section id="about-us" className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center max-w-7xl m-auto px-20 py-32">
-            <div className="grid grid-cols-1 rounded-lg p-8">
-                <div className="w-[30%] ">
-                    <Tag icon={FaHome} text="About Us" className="" />
+        <section
+            id="about-us"
+            className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 py-24 grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
+        >
+            {/* Left Content */}
+            <div className="space-y-6">
+                <div className="w-fit">
+                    <Tag icon={FaHome} text="About Us" />
                 </div>
-                <h2 className="text-6xl mb-4"><span className="span-color">Groomify</span> pet grooming salon</h2>
-                <p className="">
-                    For over 12 years, we've been dedicated to making pets look fabulous and feel loved. Because to us, your pet isn’t just a client — they’re family.
+                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight text-gray-900">
+                    <span className="text-[var(--first-color)]">Groomify</span> pet grooming salon
+                </h2>
+                <p className="text-lg text-gray-600 max-w-xl">
+                    For over 12 years, we've been dedicated to making pets look
+                    fabulous and feel loved. Because to us, your pet isn’t just a client — they’re family.
                 </p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-gray-100 p-8 text-center">
-                    <h3 className="text-5xl">12+</h3>
-                    <p className="">Years experience</p>
-                </div>
-                <div className="bg-gray-100 p-8 text-center">
-                    <h3 className="text-5xl">456+</h3>
-                    <p className="">Pampered pets</p>
-                </div>
-                <div className="bg-gray-100 p-8 text-center">
-                    <h3 className="text-5xl ">100%</h3>
-                    <p className="">Positive reviews</p>
-                </div>
-                <div className="bg-gray-100 p-8 text-center">
-                    <h3 className="text-5xl">1899+</h3>
-                    <p className="">Of shampoo used</p>
-                </div>
+
+            {/* Stats Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-2 gap-6">
+                {[
+                    { title: '12+', subtitle: 'Years experience' },
+                    { title: '456+', subtitle: 'Pampered pets' },
+                    { title: '100%', subtitle: 'Positive reviews' },
+                    { title: '1899+', subtitle: 'Of shampoo used' }
+                ].map((stat, index) => (
+                    <div
+                        key={index}
+                        className="bg-gray-50 rounded-xl shadow-sm p-6 text-center"
+                    >
+                        <h3 className="text-4xl font-bold text-blue-600">{stat.title}</h3>
+                        <p className="text-gray-700 mt-1">{stat.subtitle}</p>
+                    </div>
+                ))}
             </div>
         </section>
     );

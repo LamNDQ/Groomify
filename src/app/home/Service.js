@@ -42,46 +42,48 @@ const services = [
 ];
 
 const ServiceCard = ({ icon: Icon, title, price, description }) => (
-    <div className="p-4">
+    <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition-all duration-300">
         <div className="flex items-center justify-center">
-            <Icon className="span-color text-3xl" />
+            <Icon className="text-4xl text-[var(--first-color)]" />
         </div>
-        <div className="flex flex-col text-center mt-4">
+        <div className="flex flex-col text-center mt-4 space-y-2">
             <div className="flex items-center justify-center space-x-2">
-                <h3 className="text-xl font-bold">{title}</h3>
-                <p className="text-lg font-bold">${price}</p>
+                <h3 className="text-xl font-semibold text-gray-800">{title}</h3>
+                <span className="text-lg font-bold text-[var(--first-color)]">${price}</span>
             </div>
-            <p className="text-gray-600">{description}</p>
+            <p className="text-gray-600 text-sm">{description}</p>
         </div>
     </div>
 );
 
 export default function Service() {
     return (
-        <section id="services" className="flex flex-col  items-center justify-center max-w-7xl mx-auto px-4 py-16">
-            <div className="w-[50%] mb-8 flex flex-col items-center justify-center">
+        <section
+            id="services"
+            className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 py-24 flex flex-col items-center"
+        >
+            {/* Heading */}
+            <div className="w-full md:w-3/4 lg:w-1/2 text-center mb-12">
                 <Tag icon={FaDog} text="À la Carte Services" />
-                <h2 className="text-6xl text-center mb-8">
-                    <span className="span-color">Customize </span>
+                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mt-4 mb-6">
+                    <span className="text-[var(--first-color)]">Customize </span>
                     your pet's perfect day
                 </h2>
-                <p className="text-center mb-12">
-                    Need something specific? Pick and choose from our a la carte services to create a grooming experience tailored just for your pet.
+                <p className="text-gray-600 text-lg">
+                    Need something specific? Pick and choose from our à la carte services to create a grooming experience tailored just for your pet.
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Services Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
                 {services.map((service, index) => (
                     <ServiceCard key={index} {...service} />
                 ))}
             </div>
 
-            <div className="text-center mt-8">
-                <Button
-                    text="Book now"
-                    href="#book"
-                    className="mt-6 button inline-block"
-                />
+            {/* Call-to-action */}
+            <div className="mt-12">
+                <Button text="Book now" href="#book" className="button inline-block" />
             </div>
         </section>
     );

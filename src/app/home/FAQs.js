@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import Image from 'next/image';
 import Tag from '../components/shared/Tag';
@@ -34,62 +33,65 @@ const faqData = [
 
 export default function FAQs() {
     const [activeId, setActiveId] = useState(null);
-
-    const toggleFAQ = (id) => {
-        setActiveId(activeId === id ? null : id);
-    };
+    const toggleFAQ = (id) => setActiveId(activeId === id ? null : id);
 
     return (
-        <section id="faqs" className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center max-w-7xl mx-auto px-4 py-16 p-8">
-            <div className="grid col-span-1">
-                <Image
-                    src="/images/faqs-image.jpeg"
-                    alt="Dog"
-                    width={300}
-                    height={200}
-                    className="rounded-lg shadow-lg mb-4 w-full h-auto"
-                />
-            </div>
-            <div className="grid col-span-1">
-                <div className="w-[30%]">
-                    <Tag icon={FaQuestionCircle} text="FAQs" />
+        <section id="faqs" className="py-20 bg-white">
+            <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-12 px-4 md:px-8 lg:px-20 items-center">
+
+                {/* Image */}
+                <div className="w-full md:w-1/2">
+                    <Image
+                        src="/images/faqs-image.jpeg"
+                        alt="Dog"
+                        width={600}
+                        height={400}
+                        className="rounded-xl shadow-xl w-full h-auto"
+                    />
                 </div>
-                <h2 className="text-6xl mb-8">
-                    Frequently asked <span className="span-color">questions</span>
-                </h2>
-                <div className="space-y-4">
-                    {faqData.map((faq) => (
-                        <div
-                            key={faq.id}
-                            className="border border-gray-200 rounded-lg p-4"
-                        >
-                            <button
-                                onClick={() => toggleFAQ(faq.id)}
-                                className="w-full flex justify-between items-center"
-                            >
-                                <h3 className="text-lg font-medium">{faq.question}</h3>
-                                <div className="relative w-6 h-6 transition-transform duration-300">
-                                    <FaPlus
-                                        className={`absolute inset-0 transform transition-all duration-300 
-                                            ${activeId === faq.id ? 'rotate-45 opacity-0' : 'rotate-0 opacity-100'}`}
-                                    />
-                                    <FaTimes
-                                        className={`absolute inset-0 transform transition-all duration-300 
-                                            ${activeId === faq.id ? 'rotate-0 opacity-100' : '-rotate-45 opacity-0'}`}
-                                    />
-                                </div>
-                            </button>
+
+                {/* Content */}
+                <div className="w-full md:w-1/2">
+                    <div className="mb-6 w-fit">
+                        <Tag icon={FaQuestionCircle} text="FAQs" />
+                    </div>
+                    <h2 className="text-4xl md:text-6xl font-bold mb-6">
+                        Frequently asked <span className="text-[var(--first-color)]">questions</span>
+                    </h2>
+
+                    <div className="space-y-4">
+                        {faqData.map((faq) => (
                             <div
-                                className={`grid transition-all duration-300 ease-in-out
-                                    ${activeId === faq.id ? 'grid-rows-[1fr] opacity-100 mt-4' : 'grid-rows-[0fr] opacity-0'}`}
+                                key={faq.id}
+                                className="border border-gray-200 rounded-xl p-4 transition-shadow hover:shadow-md"
                             >
-                                <div className="overflow-hidden">
+                                <button
+                                    onClick={() => toggleFAQ(faq.id)}
+                                    className="w-full flex justify-between items-center cursor-pointer"
+                                >
+                                    <h3 className="text-lg font-semibold text-left">{faq.question}</h3>
+                                    <span className="w-6 h-6 relative">
+                                        <FaPlus
+                                            className={`absolute inset-0 transition-all duration-300 
+                        ${activeId === faq.id ? 'rotate-45 opacity-0' : 'rotate-0 opacity-100'}`}
+                                        />
+                                        <FaTimes
+                                            className={`absolute inset-0 transition-all duration-300 
+                        ${activeId === faq.id ? 'rotate-0 opacity-100' : '-rotate-45 opacity-0'}`}
+                                        />
+                                    </span>
+                                </button>
+                                <div
+                                    className={`overflow-hidden transition-all duration-300 ease-in-out 
+                    ${activeId === faq.id ? 'max-h-40 mt-3 opacity-100' : 'max-h-0 opacity-0'}`}
+                                >
                                     <p className="text-gray-600">{faq.answer}</p>
                                 </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
+
             </div>
         </section>
     );
