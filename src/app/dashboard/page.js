@@ -33,10 +33,58 @@ export default function Dashboard() {
         filter === 'all' ? true : apt.status === filter
     );
 
+    const deleteAppointment = async (id) => {
+        if (!window.confirm('Are you sure you want to delete this appointment?')) {
+            return;
+        }
+
+        try {
+            const response = await fetch(`/api/bookings/${id}`, {
+                method: 'DELETE',
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to delete appointment');
+            }
+
+            // Cập nhật state sau khi xóa
+            setAppointments(appointments.filter(apt => apt.id !== id));
+        } catch (error) {
+            console.error('Error deleting appointment:', error);
+            setError('Failed to delete appointment');
+        }
+    };
+
+
+    // Thêm hàm cập nhật trạng thái
+    const updateStatus = async (id, newStatus) => {
+        try {
+            const response = await fetch(`/api/bookings/${id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ status: newStatus }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update status');
+            }
+
+            // Cập nhật state sau khi thay đổi trạng thái
+            setAppointments(appointments.map(apt =>
+                apt.id === id ? { ...apt, status: newStatus } : apt
+            ));
+        } catch (error) {
+            console.error('Error updating status:', error);
+            setError('Failed to update status');
+        }
+    };
+
     return (
         <div className="min-h-screen bg-gray-50 p-6">
             <header className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
-                <h1 className="text-3xl font-bold text-gray-800">📋 Appointment Dashboard</h1>
+                <h1 className="text-3xl font-bold text-[var(--first-color)]"> Appointment Dashboard</h1>
                 <select
                     value={filter}
                     onChange={(e) => setFilter(e.target.value)}
@@ -90,8 +138,8 @@ export default function Dashboard() {
                                     <div
                                         key={appointment.id}
                                         className={`bg-white rounded-xl p-5 shadow-md border-t-4 ${appointment.status === 'pending'
-                                                ? 'border-yellow-400'
-                                                : 'border-green-500'
+                                            ? 'border-yellow-400'
+                                            : 'border-green-500'
                                             }`}
                                     >
                                         <h3 className="text-lg font-semibold text-gray-800 mb-2">
@@ -114,14 +162,39 @@ export default function Dashboard() {
                                             <strong>Status:</strong>{' '}
                                             <span
                                                 className={`ml-2 px-2 py-1 rounded text-xs font-semibold ${appointment.status === 'pending'
-                                                        ? 'bg-yellow-100 text-yellow-800'
-                                                        : 'bg-green-100 text-green-800'
+                                                    ? 'bg-yellow-100 text-yellow-800'
+                                                    : 'bg-green-100 text-green-800'
                                                     }`}
                                             >
                                                 {appointment.status}
                                             </span>
                                         </p>
+                                        <div className="mt-4 flex gap-2 justify-end">
+                                            {appointment.status === 'pending' && (
+                                                <button
+                                                    onClick={() => updateStatus(appointment.id, 'completed')}
+                                                    className="px-3 py-1 text-sm bg-green-500 text-white rounded-md hover:bg-green-600"
+                                                >
+                                                    Complete
+                                                </button>
+                                            )}
+                                            {appointment.status === 'completed' && (
+                                                <button
+                                                    onClick={() => updateStatus(appointment.id, 'pending')}
+                                                    className="px-3 py-1 text-sm bg-yellow-500 text-white rounded-md hover:bg-yellow-600"
+                                                >
+                                                    Revert to Pending
+                                                </button>
+                                            )}
+                                            <button
+                                                onClick={() => deleteAppointment(appointment.id)}
+                                                className="px-3 py-1 text-sm bg-red-500 text-white rounded-md hover:bg-red-600"
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
                                     </div>
+
                                 ))
                             )}
                         </div>
