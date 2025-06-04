@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import Button from '../../../components/common/Button';
-import Input from '../../../components/common/Input';
+import Button from '@/app/components/common/Button';
+import Input from '@/app/components/common/Input';
 import Link from 'next/link';
 import { FaPaw } from 'react-icons/fa';
 
