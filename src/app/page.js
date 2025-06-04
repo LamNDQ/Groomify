@@ -2,16 +2,16 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Header from "@/components/home/Header";
-import Hero from "@/components/home/Hero";
-import AboutUs from "@/components/home/AboutUs";
-import Gallery from "@/components/home/Gallery";
-import ContactUs from "@/components/home/ContactUs";
-import FAQs from "@/components/home/FAQs";
-import Service from "@/components/home/Service";
-import Packages from "@/components/home/Packages";
-import BookingModal from "@/components/modals/BookingModal";
-import Footer from "@/components/home/Footer";
+import BookingModal from "./components/modals/BookingModal";
+import Header from "./home/Header";
+import Hero from "./home/Hero";
+import AboutUs from "./home/AboutUs";
+import Service from "./home/Service";
+import Packages from "./home/Packages";
+import Gallery from "./home/Gallery";
+import FAQs from "./home/FAQs";
+import ContactUs from "./home/ContactUs"
+import Footer from "./home/Footer";
 
 export default function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -35,7 +35,12 @@ export default function Home() {
       <ContactUs />
       <Footer />
 
-      <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      {isModalOpen && (
+        <BookingModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </main>
   );
 }
