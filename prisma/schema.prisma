@@ -28,14 +28,12 @@ model Booking {
   @@map("bookings")
 }
 
-model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
-  password  String
-  role      String   @default("user")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@map("users")
+model Faq {
+    id        Int      @id @default(autoincrement())
+    question  String   @unique
+    answer    String
+    category  String?
+    isActive  Boolean  @default(true)
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
