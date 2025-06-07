@@ -1,43 +1,6 @@
 import { NextResponse } from 'next/server'
 import { Prisma } from '@prisma/client'
 
-// GET - Fetch specific booking
-export async function GET(request, { params }) {
-    try {
-        const { id } = params
-
-        const booking = await prisma.booking.findUnique({
-            where: { id }
-        })
-
-        if (!booking) {
-            return NextResponse.json(
-                {
-                    success: false,
-                    error: 'Booking not found'
-                },
-                { status: 404 }
-            )
-        }
-
-        return NextResponse.json({
-            success: true,
-            data: booking
-        })
-
-    } catch (error) {
-        console.error('Error fetching booking:', error)
-        return NextResponse.json(
-            {
-                success: false,
-                error: 'Failed to fetch booking',
-                details: error.message
-            },
-            { status: 500 }
-        )
-    }
-}
-
 // PUT - Update booking
 export async function PUT(request, { params }) {
     try {
