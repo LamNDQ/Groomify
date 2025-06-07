@@ -1,5 +1,6 @@
 
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
+import Button from '../common/Button'
 
 export default function BookingModal({ isOpen, onClose }) {
     const [formData, setFormData] = useState({
@@ -28,73 +29,52 @@ export default function BookingModal({ isOpen, onClose }) {
         setLoading(true)
         setMessage('')
 
-        console.log('🚀 Submitting form data:', formData)
-
         try {
-            const url = '/api/bookings'
-            console.log('📡 Making request to:', url)
+            console.log('Submitting form data:', formData) // Debug log
 
-            const response = await fetch(url, {
+            const response = await fetch('/api/bookings', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify({
+                    ...formData,
+                    date: new Date(formData.date).toISOString(),
+                    status: 'pending'
+                }),
             })
 
-            console.log('📊 Response status:', response.status)
-            console.log('📊 Response ok:', response.ok)
+            const result = await response.json()
+            console.log('API Response:', result) // Debug log
 
-            // Lấy response text trước
-            const responseText = await response.text()
-            console.log('📄 Raw response:', responseText)
-
-            // Kiểm tra xem response có phải JSON không
-            let result
-            try {
-                result = JSON.parse(responseText)
-                console.log('✅ Parsed JSON:', result)
-            } catch (parseError) {
-                console.error('❌ JSON parse error:', parseError)
-                console.log('🔍 Response text:', responseText.substring(0, 200) + '...')
-
-                // Nếu response là HTML, có thể là lỗi 404 hoặc 500
-                if (responseText.includes('<!DOCTYPE') || responseText.includes('<html')) {
-                    throw new Error('API endpoint returned HTML instead of JSON. Check if /api/bookings exists.')
-                }
-                throw new Error('Invalid JSON response from server')
+            if (!response.ok) {
+                throw new Error(result.error || 'Failed to create booking')
             }
 
-            if (response.ok && result.success) {
-                setMessage('Booking created successfully!')
-                setFormData({
-                    petName: '',
-                    petType: '',
-                    ownerName: '',
-                    ownerEmail: '',
-                    ownerPhone: '',
-                    service: '',
-                    date: '',
-                    time: '',
-                    notes: ''
-                })
-                setTimeout(() => {
-                    onClose()
-                    setMessage('')
-                }, 2000)
-            } else {
-                setMessage(result.error || `Server error: ${response.status}`)
-            }
+            setMessage('Booking created successfully!')
+            setFormData({
+                petName: '',
+                petType: '',
+                ownerName: '',
+                ownerEmail: '',
+                ownerPhone: '',
+                service: '',
+                date: '',
+                time: '',
+                notes: ''
+            })
+
+            setTimeout(() => {
+                onClose()
+                setMessage('')
+            }, 2000)
         } catch (error) {
-            console.error('❌ Error details:', error)
+            console.error('Booking error:', error)
             setMessage(`Error: ${error.message}`)
         } finally {
             setLoading(false)
         }
     }
-
-    if (!isOpen) return null
-
     return (
         <div
             className="fixed inset-0 bg-opacity-40 backdrop-blur-sm flex items-center justify-center p-4 z-50"
@@ -104,16 +84,10 @@ export default function BookingModal({ isOpen, onClose }) {
                 className="bg-white rounded-lg max-w-md w-full max-h-[100vh] overflow-hidden shadow-lg"
                 onClick={(e) => e.stopPropagation()} // ⛔ Ngăn click trong modal làm đóng
             >
-                <div className="bg-white rounded-lg max-w-md w-full max-h-[90vh] overflow-hidden shadow-lg">
+                <div className="bg-white rounded-lg max-w-md w-full max-h-[100vh] overflow-hidden shadow-lg">
                     <div className="p-6 backdrop-blur-xs">
                         <div className="flex justify-between items-center mb-4">
-                            <h2 className="text-2xl font-bold text-gray-800">Book Grooming Service</h2>
-                            <button
-                                onClick={onClose}
-                                className="text-gray-500 hover:text-gray-700 text-2xl"
-                            >
-                                ×
-                            </button>
+                            <h2 className="text-2xl font-bold text-[var(--first-color)] mx-auto">Book Grooming Service</h2>
                         </div>
 
                         {message && (
@@ -254,7 +228,7 @@ export default function BookingModal({ isOpen, onClose }) {
                                     >
                                         <option value="">Select time</option>
                                         <option value="09:00">9:00 AM</option>
-                                        <option value="10   :00">10:00 AM</option>
+                                        <option value="10:00">10:00 AM</option>
                                         <option value="11:00">11:00 AM</option>
                                         <option value="13:00">1:00 PM</option>
                                         <option value="14:00">2:00 PM</option>
@@ -278,14 +252,7 @@ export default function BookingModal({ isOpen, onClose }) {
                                 />
                             </div>
 
-                            <div className="flex gap-3 pt-4">
-                                <button
-                                    type="button"
-                                    onClick={onClose}
-                                    className="flex-1 py-2 px-4 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors"
-                                >
-                                    Cancel
-                                </button>
+                            <div className="flex gap-3 pt-4 text-center">
                                 <button
                                     type="submit"
                                     disabled={loading}
@@ -301,3 +268,4 @@ export default function BookingModal({ isOpen, onClose }) {
         </div>
     )
 }
+
