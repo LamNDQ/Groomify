@@ -59,45 +59,47 @@ export async function PUT(request, { params }) {
     }
 }
 
-// DELETE - Delete booking
-export async function DELETE(request, { params }) {
+export async function DELETE(request, context) {
     try {
-        const { id } = params
+        const id = context.params.id;
+
+        if (!id) {
+            return NextResponse.json({
+                success: false,
+                error: 'Booking ID is required'
+            }, { status: 400 });
+        }
 
         // Check if booking exists
         const existingBooking = await prisma.booking.findUnique({
             where: { id }
-        })
+        });
 
         if (!existingBooking) {
-            return NextResponse.json(
-                {
-                    success: false,
-                    error: 'Booking not found'
-                },
-                { status: 404 }
-            )
+            return NextResponse.json({
+                success: false,
+                error: 'Booking not found'
+            }, { status: 404 });
         }
 
         // Delete booking
         await prisma.booking.delete({
             where: { id }
-        })
+        });
 
         return NextResponse.json({
             success: true,
             message: 'Booking deleted successfully'
-        })
+        });
 
     } catch (error) {
-        console.error('Error deleting booking:', error)
-        return NextResponse.json(
-            {
-                success: false,
-                error: 'Failed to delete booking',
-                details: error.message
-            },
-            { status: 500 }
-        )
+        console.error('Delete error:', error);
+        return NextResponse.json({
+            success: false,
+            error: 'Failed to delete booking',
+            details: error.message
+        }, { status: 500 });
+    } finally {
+        await prisma.$disconnect();
     }
 }
