@@ -32,6 +32,7 @@ export default function Header() {
                 <div className="hidden md:flex items-center space-x-4">
                     <Link href="/auth/login" className="hover:underline">Log in</Link>
                     <Button text="Book Now" href="#book" className="inline-block" />
+                    <Link href="/dashboard" className="hover:underline">Dashboard</Link>
                 </div>
 
                 {/* Mobile menu toggle */}

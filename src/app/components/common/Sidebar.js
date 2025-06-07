@@ -9,10 +9,10 @@ export default function Sidebar() {
 
     const menuItems = [
         {
-            href: '/dashboard',
+            href: '/',
             icon: FaHome,
-            label: 'Dashboard',
-            active: pathname === '/dashboard'
+            label: 'Home',
+            active: pathname === '/'
         },
         {
             href: '/dashboard/bookings',
