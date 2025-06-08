@@ -1,11 +1,34 @@
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
 import { FaHome } from 'react-icons/fa';
 import Tag from '../components/common/Tag';
 
 export default function AboutUs() {
+    const ref = useRef(null);
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => setIsVisible(entry.isIntersecting),
+            { threshold: 0.2 }
+        );
+
+        if (ref.current) observer.observe(ref.current);
+        return () => {
+            if (ref.current) observer.unobserve(ref.current);
+        };
+    }, []);
+
     return (
         <section
             id="about-us"
-            className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 py-24 grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
+            ref={ref}
+            className={`
+                max-w-7xl mx-auto px-6 md:px-12 lg:px-20 py-24 grid grid-cols-1 md:grid-cols-2 gap-12 items-center
+                transition-all duration-1000 ease-out
+                ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}
+            `}
         >
             {/* Left Content */}
             <div className="space-y-6">

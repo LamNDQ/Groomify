@@ -1,21 +1,80 @@
-
+import { useState } from "react";
 import Button from "../components/common/Button";
+import Tag from "../components/common/Tag";
 import { SiGmail } from "react-icons/si";
-import { FaFacebook, FaInstagram } from "react-icons/fa";
-
-
+import { FaFacebook, FaInstagram, FaCheckCircle, FaExclamationTriangle, FaHandshake } from "react-icons/fa";
 
 export default function ContactPage() {
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        subject: '',
+        message: ''
+    });
+    const [loading, setLoading] = useState(false);
+    const [notification, setNotification] = useState(null);
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setNotification(null);
+
+        try {
+            const response = await fetch('/api/contacts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setNotification({
+                    type: 'success',
+                    message: 'Tin nhắn của bạn đã được gửi thành công! Chúng tôi sẽ phản hồi sớm nhất có thể.'
+                });
+                setFormData({
+                    name: '',
+                    email: '',
+                    subject: '',
+                    message: ''
+                });
+            } else {
+                setNotification({
+                    type: 'error',
+                    message: data.error || 'Có lỗi xảy ra. Vui lòng thử lại.'
+                });
+            }
+        } catch (error) {
+            setNotification({
+                type: 'error',
+                message: 'Không thể kết nối đến server. Vui lòng thử lại sau.'
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div className="py-16 px-4">
             <div className="max-w-5xl mx-auto">
-                <div className="text-center mb-12">
-                    <h3 className="text-[var(--first-color)] uppercase tracking-wider font-semibold text-sm">Contact</h3>
-                    <h1 className="text-4xl font-bold mt-2">
-                        Get In <span className="text-[var(--first-color)]">Touch</span>
-                    </h1>
-                    <p className="text-gray-400 mt-4">
-                        Have a question or want to work together? Feel free to reach out.
+                {/* Heading */}
+                <div className="text-center mb-16 w-full md:w-2/3 mx-auto">
+                    <Tag icon={FaHandshake} text="Contact us" />
+                    <h2 className="text-4xl md:text-6xl font-bold mt-4 mb-6 leading-snug">
+                        <span className="text-[var(--first-color)]">Get in touch</span> with us
+                    </h2>
+                    <p className="text-gray-600 text-lg">
+                        Have a question? We're always here to help.
                     </p>
                 </div>
 
@@ -60,49 +119,74 @@ export default function ContactPage() {
                         </div>
                     </div>
 
-                    {/* Right Section */}
-                    <form className="text-white p-8 space-y-6 bg-zinc-800">
+                    {/* Right Section - Updated Form */}
+                    <form onSubmit={handleSubmit} className="text-white p-8 space-y-6 bg-zinc-800">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label className="block text-sm font-medium mb-1">Name</label>
+                                <label className="block text-sm font-medium mb-1">Name *</label>
                                 <input
                                     type="text"
-                                    className="w-full px-4 py-2 bg-zinc-900 border border-zinc-700 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                                    name="name"
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                    required
+                                    disabled={loading}
+                                    className="w-full px-4 py-2 bg-zinc-900 border border-zinc-700 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50"
                                     placeholder="Your name"
                                 />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium mb-1">Email</label>
+                                <label className="block text-sm font-medium mb-1">Email *</label>
                                 <input
                                     type="email"
-                                    className="w-full px-4 py-2 bg-zinc-900 border border-zinc-700 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    required
+                                    disabled={loading}
+                                    className="w-full px-4 py-2 bg-zinc-900 border border-zinc-700 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50"
                                     placeholder="Your email"
                                 />
                             </div>
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium mb-1">Subject</label>
+                            <label className="block text-sm font-medium mb-1">Subject *</label>
                             <input
                                 type="text"
-                                className="w-full px-4 py-2 bg-zinc-900 border border-zinc-700 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                                name="subject"
+                                value={formData.subject}
+                                onChange={handleChange}
+                                required
+                                disabled={loading}
+                                className="w-full px-4 py-2 bg-zinc-900 border border-zinc-700 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50"
                                 placeholder="Subject of your message"
                             />
                         </div>
 
                         <div>
-                            <label className="block text-sm font-medium mb-1">Message</label>
+                            <label className="block text-sm font-medium mb-1">Message *</label>
                             <textarea
-                                className="w-full px-4 py-2 bg-zinc-900 border border-zinc-700 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                                name="message"
+                                value={formData.message}
+                                onChange={handleChange}
+                                required
+                                disabled={loading}
+                                className="w-full px-4 py-2 bg-zinc-900 border border-zinc-700 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50"
                                 rows={5}
                                 placeholder="Your message"
                             ></textarea>
                         </div>
 
-                        <Button
-                            text="Send Message"
-                            className="button inline-block"
-                        />
+                        <div className="flex gap-3 pt-4 text-center">
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className="flex-1 py-2 px-4 bg-[var(--first-color)] text-white rounded-md disabled:opacity-50 transition-colors text-white font-bold bg-[var(--first-color)] px-6 py-3 rounded-2xl shadow-lg hover:shadow-xl transition-transform transform hover:scale-105"
+                            >
+                                {loading ? "Đang gửi..." : "Send Message"}
+                            </button>
+                        </div>
                     </form>
                 </div>
             </div>

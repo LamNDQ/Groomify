@@ -1,3 +1,6 @@
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
 import Button from "../components/common/Button";
 import { FaSpa, FaPaw, FaTooth, FaBrush, FaSeedling, FaHandSparkles, FaDog } from 'react-icons/fa';
 import Tag from "../components/common/Tag";
@@ -41,8 +44,14 @@ const services = [
     }
 ];
 
-const ServiceCard = ({ icon: Icon, title, price, description }) => (
-    <div className="bg-white rounded-xl shadow-md p-6 hover:shadow-xl transition-all duration-300">
+const ServiceCard = ({ icon: Icon, title, price, description, index, visible }) => (
+    <div
+        className={`
+            bg-white rounded-xl shadow-md p-6 transition-all duration-700 ease-out
+            ${visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}
+        `}
+        style={{ transitionDelay: `${index * 150}ms` }}
+    >
         <div className="flex items-center justify-center">
             <Icon className="text-4xl text-[var(--first-color)]" />
         </div>
@@ -57,9 +66,26 @@ const ServiceCard = ({ icon: Icon, title, price, description }) => (
 );
 
 export default function Service() {
+    const ref = useRef(null);
+    const [visible, setVisible] = useState(false);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) setVisible(true);
+            },
+            { threshold: 0.2 }
+        );
+        if (ref.current) observer.observe(ref.current);
+        return () => {
+            if (ref.current) observer.unobserve(ref.current);
+        };
+    }, []);
+
     return (
         <section
             id="services"
+            ref={ref}
             className="max-w-7xl mx-auto px-6 md:px-12 lg:px-20 py-24 flex flex-col items-center"
         >
             {/* Heading */}
@@ -77,7 +103,7 @@ export default function Service() {
             {/* Services Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
                 {services.map((service, index) => (
-                    <ServiceCard key={index} {...service} />
+                    <ServiceCard key={index} index={index} visible={visible} {...service} />
                 ))}
             </div>
 

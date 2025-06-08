@@ -4,7 +4,7 @@ import Sidebar from '@/app/components/common/Sidebar';
 import { useState, useEffect } from 'react';
 import { FaTrash, FaPaw, FaEdit } from 'react-icons/fa';
 
-export default function Dashboard() {
+export default function BookingsDashboard() {
     const [appointments, setAppointments] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);

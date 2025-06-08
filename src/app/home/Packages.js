@@ -73,21 +73,22 @@ export default function Packages() {
                     Whether your pet needs a quick refresh or a full spa day, we’ve got the perfect package to suit their needs.
                 </p>
 
-                {/* Tabs */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
-                    {packages.map((pkg) => (
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10 transition-all duration-700 opacity-100 translate-y-0">
+                    {packages.map((pkg, idx) => (
                         <button
                             key={pkg.id}
                             onClick={() => setActivePackage(pkg.id)}
-                            className={`w-full px-5 py-3 rounded-lg font-medium border transition-all duration-200
+                            className={`w-full px-5 py-3 rounded-lg font-medium border transition-all duration-300 ease-out
                 ${activePackage === pkg.id
                                     ? 'bg-blue-100 border-[var(--first-color)] text-[var(--first-color)] shadow'
-                                    : 'bg-white border-gray-300 hover:border-[var(--first-color)] hover:bg-gray-50'}`}
+                                    : 'bg-white border-gray-300 hover:border-[var(--first-color)] hover:bg-gray-50'}
+            `}
                         >
                             {pkg.name}
                         </button>
                     ))}
                 </div>
+
 
                 {/* Package Card */}
                 <div className="space-y-8">
