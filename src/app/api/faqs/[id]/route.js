@@ -1,10 +1,11 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-export async function DELETE(request, { params }) {
+// DELETE - Xoá một FAQ
+export async function DELETE(request, context) {
     try {
-        const { id } = params;
-        const faqId = parseInt(id);
+        const params = await context.params;
+        const faqId = parseInt(params?.id);
 
         if (isNaN(faqId)) {
             return NextResponse.json({
@@ -13,13 +14,10 @@ export async function DELETE(request, { params }) {
             }, { status: 400 });
         }
 
-        console.log('Attempting to delete FAQ:', faqId);
-
         const deletedFaq = await prisma.faq.delete({
             where: { id: faqId }
         });
 
-        console.log('FAQ deleted successfully:', deletedFaq);
         return NextResponse.json({
             success: true,
             message: 'FAQ deleted successfully'
@@ -45,13 +43,13 @@ export async function DELETE(request, { params }) {
     }
 }
 
-export async function PUT(request, { params }) {
+// PUT - Cập nhật một FAQ
+export async function PUT(request, context) {
     try {
-        const { id } = params;
-        const faqId = parseInt(id);
+        const params = await context.params;
+        const faqId = parseInt(params?.id);
         const data = await request.json();
 
-        // Validate ID
         if (isNaN(faqId)) {
             return NextResponse.json({
                 success: false,
@@ -59,7 +57,6 @@ export async function PUT(request, { params }) {
             }, { status: 400 });
         }
 
-        // Validate required fields
         if (!data.question || !data.answer) {
             return NextResponse.json({
                 success: false,
@@ -67,7 +64,6 @@ export async function PUT(request, { params }) {
             }, { status: 400 });
         }
 
-        // Update FAQ
         const updatedFaq = await prisma.faq.update({
             where: { id: faqId },
             data: {

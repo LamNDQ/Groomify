@@ -317,7 +317,7 @@ export default function Dashboard() {
                                         </button>
                                         <button
                                             type="submit"
-                                            className="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 font-bold transition-transform transform hover:scale-105"
+                                            className="px-6 py-2 bg-[var(--first-color)] text-white rounded-md hover:bg-blue-600 font-bold transition-transform transform hover:scale-105"
                                         >
                                             Save Changes
                                         </button>
