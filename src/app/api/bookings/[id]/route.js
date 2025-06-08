@@ -1,67 +1,10 @@
 import { NextResponse } from 'next/server'
-import { Prisma } from '@prisma/client'
+import { prisma } from '@/lib/prisma'
 
 // PUT - Update booking
 export async function PUT(request, { params }) {
     try {
-        const { id } = params
-        const body = await request.json()
-
-        // Check if booking exists
-        const existingBooking = await prisma.booking.findUnique({
-            where: { id }
-        })
-
-        if (!existingBooking) {
-            return NextResponse.json(
-                {
-                    success: false,
-                    error: 'Booking not found'
-                },
-                { status: 404 }
-            )
-        }
-
-        // Update booking
-        const updatedBooking = await prisma.booking.update({
-            where: { id },
-            data: {
-                ...(body.petName && { petName: body.petName.trim() }),
-                ...(body.petType && { petType: body.petType }),
-                ...(body.ownerName && { ownerName: body.ownerName.trim() }),
-                ...(body.ownerEmail && { ownerEmail: body.ownerEmail.toLowerCase().trim() }),
-                ...(body.ownerPhone && { ownerPhone: body.ownerPhone.trim() }),
-                ...(body.service && { service: body.service }),
-                ...(body.date && { date: new Date(body.date) }),
-                ...(body.time && { time: body.time }),
-                ...(body.notes !== undefined && { notes: body.notes?.trim() || null }),
-                ...(body.status && { status: body.status }),
-                updatedAt: new Date()
-            }
-        })
-
-        return NextResponse.json({
-            success: true,
-            data: updatedBooking,
-            message: 'Booking updated successfully'
-        })
-
-    } catch (error) {
-        console.error('Error updating booking:', error)
-        return NextResponse.json(
-            {
-                success: false,
-                error: 'Failed to update booking',
-                details: error.message
-            },
-            { status: 500 }
-        )
-    }
-}
-
-export async function DELETE(request, context) {
-    try {
-        const id = context.params.id;
+        const id = params?.id;
 
         if (!id) {
             return NextResponse.json({
@@ -70,7 +13,8 @@ export async function DELETE(request, context) {
             }, { status: 400 });
         }
 
-        // Check if booking exists
+        const body = await request.json();
+
         const existingBooking = await prisma.booking.findUnique({
             where: { id }
         });
@@ -82,7 +26,49 @@ export async function DELETE(request, context) {
             }, { status: 404 });
         }
 
-        // Delete booking
+        const updatedBooking = await prisma.booking.update({
+            where: { id },
+            data: {
+                petName: body.petName,
+                petType: body.petType,
+                ownerName: body.ownerName,
+                ownerEmail: body.ownerEmail,
+                ownerPhone: body.ownerPhone,
+                service: body.service,
+                date: new Date(body.date),
+                time: body.time,
+                notes: body.notes || null
+            }
+        });
+
+        return NextResponse.json({
+            success: true,
+            data: updatedBooking
+        });
+
+    } catch (error) {
+        console.error('Update error:', error);
+        return NextResponse.json({
+            success: false,
+            error: 'Failed to update booking',
+            details: error.message
+        }, { status: 500 });
+    }
+}
+
+// DELETE - Delete booking
+export async function DELETE(request, context) {
+    try {
+        const params = await context.params;
+        const id = params?.id;
+
+        if (!id) {
+            return NextResponse.json({
+                success: false,
+                error: 'Booking ID is required'
+            }, { status: 400 });
+        }
+
         await prisma.booking.delete({
             where: { id }
         });
@@ -99,7 +85,5 @@ export async function DELETE(request, context) {
             error: 'Failed to delete booking',
             details: error.message
         }, { status: 500 });
-    } finally {
-        await prisma.$disconnect();
     }
 }

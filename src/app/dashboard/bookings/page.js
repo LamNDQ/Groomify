@@ -22,6 +22,24 @@ export default function Dashboard() {
         notes: ''
     });
 
+    const onClose = () => {
+        setEditingId(null);
+        setError(null);
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        handleUpdate();
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setEditForm(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
     const handleEdit = (appointment) => {
         setEditingId(appointment.id);
         setEditForm({
@@ -130,43 +148,181 @@ export default function Dashboard() {
                 )}
 
                 {editingId && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-                        <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                            <h2 className="text-2xl font-bold mb-4">Edit Appointment</h2>
-                            <div className="grid grid-cols-2 gap-4 mb-4">
-                                <div>
-                                    <label className="block text-sm font-medium mb-1">Pet Name</label>
-                                    <input
-                                        type="text"
-                                        value={editForm.petName}
-                                        onChange={(e) => setEditForm({ ...editForm, petName: e.target.value })}
-                                        className="w-full p-2 border rounded"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium mb-1">Pet Type</label>
-                                    <input
-                                        type="text"
-                                        value={editForm.petType}
-                                        onChange={(e) => setEditForm({ ...editForm, petType: e.target.value })}
-                                        className="w-full p-2 border rounded"
-                                    />
-                                </div>
-                                {/* Add similar fields for other properties */}
-                            </div>
-                            <div className="flex justify-end gap-2">
-                                <button
-                                    onClick={handleCancel}
-                                    className="px-4 py-2 border rounded hover:bg-gray-100"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    onClick={handleUpdate}
-                                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                                >
-                                    Save Changes
-                                </button>
+                    <div
+                        className="fixed inset-0 bg-opacity-40 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+                        onClick={onClose}
+                    >
+                        <div
+                            className="bg-white rounded-lg max-w-2xl w-full max-h-[95vh] overflow-y-auto shadow-lg"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <div className="p-6">
+                                <h2 className="text-2xl font-bold text-[var(--first-color)] text-center mb-6">
+                                    Edit Appointment
+                                </h2>
+
+                                <form onSubmit={handleSubmit} className="space-y-4">
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                                Pet Name *
+                                            </label>
+                                            <input
+                                                type="text"
+                                                name="petName"
+                                                value={editForm.petName}
+                                                onChange={handleChange}
+                                                required
+                                                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                                Pet Type *
+                                            </label>
+                                            <select
+                                                name="petType"
+                                                value={editForm.petType}
+                                                onChange={handleChange}
+                                                required
+                                                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                                            >
+                                                <option value="">Select pet type</option>
+                                                <option value="dog">Dog</option>
+                                                <option value="cat">Cat</option>
+                                                <option value="rabbit">Rabbit</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                                Owner Name *
+                                            </label>
+                                            <input
+                                                type="text"
+                                                name="ownerName"
+                                                value={editForm.ownerName}
+                                                onChange={handleChange}
+                                                required
+                                                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                                Email *
+                                            </label>
+                                            <input
+                                                type="email"
+                                                name="ownerEmail"
+                                                value={editForm.ownerEmail}
+                                                onChange={handleChange}
+                                                required
+                                                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                                Phone *
+                                            </label>
+                                            <input
+                                                type="tel"
+                                                name="ownerPhone"
+                                                value={editForm.ownerPhone}
+                                                onChange={handleChange}
+                                                required
+                                                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                                Service *
+                                            </label>
+                                            <select
+                                                name="service"
+                                                value={editForm.service}
+                                                onChange={handleChange}
+                                                required
+                                                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                                            >
+                                                <option value="">Select service</option>
+                                                <option value="basic-wash">Basic Wash ($25)</option>
+                                                <option value="full-grooming">Full Grooming ($45)</option>
+                                                <option value="nail-trimming">Nail Trimming ($15)</option>
+                                                <option value="teeth-cleaning">Teeth Cleaning ($30)</option>
+                                                <option value="flea-treatment">Flea Treatment ($35)</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                                Date *
+                                            </label>
+                                            <input
+                                                type="date"
+                                                name="date"
+                                                value={editForm.date}
+                                                onChange={handleChange}
+                                                required
+                                                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                                            />
+                                        </div>
+
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                                                Time *
+                                            </label>
+                                            <input
+                                                type="time"
+                                                name="time"
+                                                value={editForm.time}
+                                                onChange={handleChange}
+                                                required
+                                                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                                            Special Notes
+                                        </label>
+                                        <textarea
+                                            name="notes"
+                                            value={editForm.notes}
+                                            onChange={handleChange}
+                                            rows={3}
+                                            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                                            placeholder="Any special requirements or notes..."
+                                        />
+                                    </div>
+
+                                    <div className="flex justify-end gap-3 pt-4">
+                                        <button
+                                            type="button"
+                                            onClick={onClose}
+                                            className="px-5 py-2 border rounded-md text-gray-700 hover:bg-gray-100"
+                                        >
+                                            Cancel
+                                        </button>
+                                        <button
+                                            type="submit"
+                                            className="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 font-bold transition-transform transform hover:scale-105"
+                                        >
+                                            Save Changes
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
