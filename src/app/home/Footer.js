@@ -14,7 +14,7 @@ export default function Footer() {
                 <div>
                     <h2 className="text-[var(--first-color)] text-xl font-bold mb-2">Groomify</h2>
                     <p className="mb-4">
-
+                        Pamper Your Pet with a Click
                     </p>
                 </div>
 
@@ -35,7 +35,7 @@ export default function Footer() {
                     <h2 className="text-white font-semibold mb-3">Contact</h2>
                     <div className="flex items-center space-x-2 mb-2">
                         <FiMail className="text-[var(--first-color)]" />
-                        <a href="mailto:nghuuquyen@gmail.com" className="text-[var(--first-color)] hover:underline">groomify@gmail.com</a>
+                        <a href="mailto:groomify@gmail.com" className="text-[var(--first-color)] hover:underline">groomify@gmail.com</a>
                     </div>
                     <div className="flex items-center space-x-2">
                         <FiMapPin className="text-[var(--first-color)]" />
@@ -46,7 +46,7 @@ export default function Footer() {
 
             {/* Bottom */}
             <div className="max-w-7xl mx-auto mt-6 flex flex-col md:flex-row justify-between items-center text-sm text-gray-500 px-2">
-                <p>© 2025 Nguyen Dac Quang Lam. All rights reserved.</p>
+                <p>© 2025 Groomify</p>
             </div>
         </footer >
     );

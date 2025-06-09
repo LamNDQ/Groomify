@@ -114,13 +114,13 @@ export default function ContactPage() {
                         <div>
                             <p className="text-sm font-medium text-white mb-2">Connect with me</p>
                             <div className="flex space-x-4">
-                                <a href="#" aria-label="Gmail" className="bg-green-600 hover:bg-green-500 p-2 rounded-full">
+                                <a href="#" aria-label="Gmail" className="bg-white hover:bg-[var(--first-color)] p-2 rounded-full">
                                     <SiGmail />
                                 </a>
-                                <a href="#" aria-label="Facebook" className="bg-green-600 hover:bg-green-500 p-2 rounded-full">
+                                <a href="#" aria-label="Facebook" className="bg-white hover:bg-[var(--first-color)] p-2 rounded-full">
                                     <FaFacebook />
                                 </a>
-                                <a href="#" aria-label="Instagram" className="bg-green-600 hover:bg-green-500 p-2 rounded-full">
+                                <a href="#" aria-label="Instagram" className="bg-white hover:bg-[var(--first-color)] p-2 rounded-full">
                                     <FaInstagram />
                                 </a>
                             </div>
