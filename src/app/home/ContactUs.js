@@ -98,6 +98,7 @@ export default function ContactPage() {
                             <div>
                                 <p className="text-sm text-white font-medium">Location</p>
                                 <iframe
+                                    title="Location"
                                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3684.1316874509134!2d108.21767827495499!3d16.071034184608717!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31421836b5f0b5d5%3A0xf372c18deace6db!2zVmnhu4duIE5naGnDqm4gY-G7qXUgdsOgIMSQw6BvIHThuqFvIFZp4buHdCAtIEFuaCwgxJDhuqFpIGjhu41jIMSQw6AgTuG6tW5n!5e1!3m2!1sen!2s!4v1747971638378!5m2!1sen!2s"
                                     width="300px" height="300px" style={{ border: '0' }} allowFullScreen loading="lazy"></iframe>
                             </div>
@@ -106,16 +107,17 @@ export default function ContactPage() {
                         <div>
                             <p className="text-sm font-medium text-white mb-2">Connect with me</p>
                             <div className="flex space-x-4">
-                                <a href="#" className="bg-green-600 hover:bg-green-500 p-2 rounded-full">
-                                    <SiGmail className="fab fa-github"></SiGmail >
-                                </a >
-                                <a href="#" className="bg-green-600 hover:bg-green-500 p-2 rounded-full">
-                                    <FaFacebook className="fab fa-twitter"></FaFacebook >
+                                <a href="#" aria-label="Gmail" className="bg-green-600 hover:bg-green-500 p-2 rounded-full">
+                                    <SiGmail />
                                 </a>
-                                <a href="#" className="bg-green-600 hover:bg-green-500 p-2 rounded-full">
-                                    <FaInstagram className="fab fa-linkedin-in"></FaInstagram >
+                                <a href="#" aria-label="Facebook" className="bg-green-600 hover:bg-green-500 p-2 rounded-full">
+                                    <FaFacebook />
+                                </a>
+                                <a href="#" aria-label="Instagram" className="bg-green-600 hover:bg-green-500 p-2 rounded-full">
+                                    <FaInstagram />
                                 </a>
                             </div>
+
                         </div>
                     </div>
 
