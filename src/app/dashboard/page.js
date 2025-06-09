@@ -1,6 +1,6 @@
 'use client';
 
-import { FaPaw, FaUser, FaCalendarAlt, FaPhone, FaEnvelope } from 'react-icons/fa';
+import { FaPaw, FaUser, FaCalendarAlt, FaPhone } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import Sidebar from '../components/common/Sidebar';
 
@@ -38,7 +38,7 @@ export default function Dashboard() {
                     });
                 }
 
-                setRecentBookings(bookingsData.data || []);
+                setRecentBookings((bookingsData.data || []).filter(b => b.status !== 'PENDING'));
                 setRecentContacts(contactsData.data || []);
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -61,26 +61,26 @@ export default function Dashboard() {
     };
 
     return (
-        <div className="flex min-h-screen bg-gray-50">
+        <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
             <Sidebar />
-            <main className="flex-1 p-6">
+            <main className="flex-1 p-4 sm:p-6">
                 {/* Stats Section */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                     {[
                         {
-                            label: 'Tổng đặt lịch',
+                            label: 'Total bookings',
                             value: stats.totalBookings?.toString() || '0',
                             color: 'bg-blue-500',
                             icon: FaCalendarAlt
                         },
                         {
-                            label: 'Tổng liên hệ',
+                            label: 'Total contacts',
                             value: stats.totalContacts?.toString() || '0',
                             color: 'bg-green-500',
                             icon: FaPhone
                         },
                         {
-                            label: 'Tổng FAQs',
+                            label: 'Total FAQs',
                             value: stats.totalFaqs?.toString() || '0',
                             color: 'bg-purple-500',
                             icon: FaPaw
@@ -88,10 +88,10 @@ export default function Dashboard() {
                     ].map((stat, index) => {
                         const IconComponent = stat.icon;
                         return (
-                            <div key={index} className="bg-white p-6 rounded-lg shadow-sm">
+                            <div key={index} className="bg-white p-5 rounded-xl shadow hover:shadow-md transition">
                                 <div className="flex items-center">
                                     <div className={`${stat.color} p-3 rounded-lg mr-4`}>
-                                        <IconComponent className="text-white text-xl" />
+                                        <IconComponent className="text-white text-2xl" />
                                     </div>
                                     <div>
                                         <p className="text-sm text-gray-600">{stat.label}</p>
@@ -106,41 +106,45 @@ export default function Dashboard() {
                 {/* Recent Activities Section */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {/* Recent Bookings */}
-                    <div className="bg-white rounded-lg shadow-sm p-6">
-                        <h2 className="text-lg font-semibold text-gray-900 mb-4">Đặt lịch gần đây</h2>
+                    <div className="bg-white rounded-xl shadow p-5">
+                        <h2 className="text-lg font-semibold text-gray-900 mb-4">Lastest booking</h2>
                         <div className="space-y-4">
+                            {recentBookings.length === 0 && (
+                                <p className="text-gray-500 text-sm">No bookings.</p>
+                            )}
                             {recentBookings.map((booking) => (
-                                <div key={booking.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                <div key={booking.id} className="flex justify-between items-start p-4 bg-gray-50 rounded-lg hover:bg-gray-100">
                                     <div>
                                         <p className="font-medium text-gray-900">{booking.petName}</p>
                                         <p className="text-sm text-gray-600">{booking.service}</p>
                                         <p className="text-xs text-gray-500">{formatDate(booking.createdAt)}</p>
                                     </div>
-                                    <div className={`px-3 py-1 rounded-full text-xs font-medium ${booking.status === 'CONFIRMED' ? 'bg-green-100 text-green-800' :
-                                        booking.status === 'PENDING' ? 'bg-yellow-100 text-yellow-800' :
-                                            'bg-gray-100 text-gray-800'
-                                        }`}>
-                                        {booking.status}
-                                    </div>
+                                    {booking.status === 'CONFIRMED' && (
+                                        <div className="px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
+                                            Đã xác nhận
+                                        </div>
+                                    )}
+                                    {/* Trạng thái PENDING đã bị loại bỏ từ lúc fetch */}
                                 </div>
                             ))}
                         </div>
                     </div>
 
                     {/* Recent Contacts */}
-                    <div className="bg-white rounded-lg shadow-sm p-6">
-                        <h2 className="text-lg font-semibold text-gray-900 mb-4">Liên hệ gần đây</h2>
+                    <div className="bg-white rounded-xl shadow p-5">
+                        <h2 className="text-lg font-semibold text-gray-900 mb-4">Last contacts</h2>
                         <div className="space-y-4">
+                            {recentContacts.length === 0 && (
+                                <p className="text-gray-500 text-sm">No contacts.</p>
+                            )}
                             {recentContacts.map((contact) => (
-                                <div key={contact.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                                <div key={contact.id} className="flex justify-between items-start p-4 bg-gray-50 rounded-lg hover:bg-gray-100">
                                     <div>
                                         <p className="font-medium text-gray-900">{contact.name}</p>
                                         <p className="text-sm text-gray-600">{contact.email}</p>
                                         <p className="text-xs text-gray-500">{formatDate(contact.createdAt)}</p>
                                     </div>
-                                    <div className="text-sm text-gray-500">
-                                        {contact.subject}
-                                    </div>
+                                    <div className="text-sm text-gray-500 max-w-[40%] text-right">{contact.subject}</div>
                                 </div>
                             ))}
                         </div>

@@ -12,54 +12,55 @@ export default function Sidebar() {
             href: '/dashboard',
             icon: FaHome,
             label: 'Dashboard',
-            active: pathname === '/dashboard'
         },
         {
             href: '/dashboard/bookings',
             icon: FaCalendarAlt,
             label: 'Bookings',
-            active: pathname === '/dashboard/bookings'
         },
         {
             href: '/dashboard/faqs',
             icon: FaQuestionCircle,
             label: 'FAQs Management',
-            active: pathname === '/dashboard/faqs'
         },
         {
             href: '/dashboard/contacts',
             icon: FaPhone,
             label: 'Contact',
-            active: pathname === '/dashboard/contacts'
         },
     ];
 
     return (
-        <aside className="w-64 bg-white border-r border-gray-200 p-6 hidden md:block">
+        <aside className="fixed md:static z-10 w-64 bg-white border-r border-gray-200 p-6 hidden md:block h-screen">
             {/* Logo */}
             <Link
                 href="/"
-                className="text-xl font-bold text-primary flex items-center gap-2 mb-6">
-                <div className="rounded-full p-2 bg-[var(--first-color)]">
-                    <FaPaw className="text-2xl text-white" />
+                className="flex items-center gap-3 mb-8"
+            >
+                <div className="p-2 rounded-full bg-[var(--first-color)]">
+                    <FaPaw className="text-white text-2xl" />
                 </div>
-                <span className="text-xl font-semibold">Groomify</span>
+                <span className="text-xl font-bold text-gray-800">Groomify</span>
             </Link>
 
+            {/* Navigation */}
             <nav className="space-y-2">
-                {menuItems.map((item) => {
-                    const Icon = item.icon;
+                {menuItems.map(({ href, icon: Icon, label }) => {
+                    const isActive = pathname === href;
                     return (
                         <Link
-                            key={item.href}
-                            href={item.href}
-                            className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-colors ${item.active
-                                ? 'bg-[var(--first-color)] text-white font-semibold'
-                                : 'text-gray-700 hover:text-[var(--first-color)] hover:bg-gray-100'
+                            key={href}
+                            href={href}
+                            className={`flex items-center gap-3 px-4 py-2 rounded-xl transition-all duration-200 group
+                                ${isActive
+                                    ? 'bg-[var(--first-color)] text-white font-semibold shadow-sm'
+                                    : 'text-gray-700 hover:bg-gray-100 hover:text-[var(--first-color)]'
                                 }`}
                         >
-                            <Icon className="text-lg" />
-                            <span>{item.label}</span>
+                            <Icon
+                                className={`text-lg transition-colors duration-200 ${isActive ? 'text-white' : 'group-hover:text-[var(--first-color)]'}`}
+                            />
+                            <span>{label}</span>
                         </Link>
                     );
                 })}
