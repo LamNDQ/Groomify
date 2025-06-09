@@ -1,6 +1,6 @@
 'use client';
 
-import { FaHome, FaPaw, FaCalendarAlt, FaCog, FaBox, FaQuestionCircle } from 'react-icons/fa';
+import { FaHome, FaPaw, FaCalendarAlt, FaPhone, FaQuestionCircle } from 'react-icons/fa';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
@@ -9,10 +9,10 @@ export default function Sidebar() {
 
     const menuItems = [
         {
-            href: '/',
+            href: '/dashboard',
             icon: FaHome,
-            label: 'Home',
-            active: pathname === '/'
+            label: 'Dashboard',
+            active: pathname === '/dashboard'
         },
         {
             href: '/dashboard/bookings',
@@ -21,34 +21,30 @@ export default function Sidebar() {
             active: pathname === '/dashboard/bookings'
         },
         {
-            href: '/services',
-            icon: FaCog,
-            label: 'Services',
-            active: pathname === '/services'
-        },
-        {
-            href: '#',
-            icon: FaBox,
-            label: 'Packages',
-            active: pathname === '/packages'
-        },
-        {
             href: '/dashboard/faqs',
             icon: FaQuestionCircle,
             label: 'FAQs Management',
             active: pathname === '/dashboard/faqs'
-        }
+        },
+        {
+            href: '/dashboard/contacts',
+            icon: FaPhone,
+            label: 'Contact',
+            active: pathname === '/dashboard/contacts'
+        },
     ];
 
     return (
         <aside className="w-64 bg-white border-r border-gray-200 p-6 hidden md:block">
             {/* Logo */}
-            <div className="text-xl font-bold text-primary flex items-center gap-2 mb-6">
+            <Link
+                href="/"
+                className="text-xl font-bold text-primary flex items-center gap-2 mb-6">
                 <div className="rounded-full p-2 bg-[var(--first-color)]">
                     <FaPaw className="text-2xl text-white" />
                 </div>
                 <span className="text-xl font-semibold">Groomify</span>
-            </div>
+            </Link>
 
             <nav className="space-y-2">
                 {menuItems.map((item) => {

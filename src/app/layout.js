@@ -9,6 +9,29 @@ const inter = Inter({
 export const metadata = {
   title: "Groomify",
   description: "Pet care made easy.",
+  icons: {
+    icon: [
+      {
+        url: '/favicon/favicon.ico',
+        sizes: 'any',
+      },
+      {
+        url: '/favicon/icon-16x16.png',
+        sizes: '16x16',
+        type: 'image/png',
+      },
+      {
+        url: '/favicon/icon-32x32.png',
+        sizes: '32x32',
+        type: 'image/png',
+      }
+    ],
+    apple: {
+      url: '/favicon/apple-touch-icon.png',
+      sizes: '180x180',
+      type: 'image/png',
+    },
+  },
 };
 
 export default function RootLayout({ children }) {
