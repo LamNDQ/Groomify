@@ -24,8 +24,15 @@ Groomify is a modern web application built with **Next.js** and **Tailwind CSS**
 ## 🚀 Main Features
 
 ### 🏠 Homepage
-- Highlighted services: Featured, New, Promotions
-- Call-to-action buttons to view services or book appointments
+- Include:
+  -- Header
+  -- Hero
+  -- About us
+  -- Services
+  -- Packages
+  -- Contact
+  -- Footer
+- Call-to-action buttons to view book appointments
 - Responsive design for mobile and desktop
 
 ### 📅 Booking System
