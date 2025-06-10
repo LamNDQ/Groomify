@@ -67,7 +67,6 @@ Website: [https://groomify-e3l3.vercel.app/](https://groomify-e3l3.vercel.app/)
 ### Frontend
 - **Next.js 14** - React framework
 - **Tailwind CSS** - Styling
-- **React Hook Form** - Form handling
 - **React Icons** - UI icons
 - **React Hot Toast** - Notifications
 
