@@ -9,6 +9,7 @@ export async function GET() {
                 id: true,
                 name: true,
                 email: true,
+                message: true,
                 phone: true,
                 subject: true,
                 createdAt: true
@@ -26,7 +27,7 @@ export async function GET() {
 
 export async function POST(request) {
     try {
-        const { name, email, subject, phone } = await request.json();
+        const { name, email, subject, message, phone } = await request.json();
 
         // Validate required fields
         if (!name || !email) {

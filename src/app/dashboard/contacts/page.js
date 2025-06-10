@@ -92,6 +92,7 @@ export default function ContactsDashboard() {
                                         <tr>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name and email</th>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tittle</th>
+                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Message</th>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date</th>
                                             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
                                         </tr>
@@ -108,6 +109,11 @@ export default function ContactsDashboard() {
                                                 <td className="px-6 py-4">
                                                     <div className="text-sm text-gray-900 max-w-xs truncate">
                                                         {contact.subject}
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-4">
+                                                    <div className="text-sm text-gray-900 max-w-xs truncate">
+                                                        {contact.message}
                                                     </div>
                                                 </td>
                                                 <td className="px-6 py-4 text-sm text-gray-500">
