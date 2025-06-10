@@ -2,7 +2,7 @@
 
 import Sidebar from '@/app/components/common/Sidebar';
 import { useState, useEffect } from 'react';
-import { FaTrash, FaPaw, FaEdit } from 'react-icons/fa';
+import { FaTrash, FaPaw, FaEdit, FaClock, FaCheck, FaCheckDouble, FaTimes } from 'react-icons/fa';
 
 export default function BookingsDashboard() {
     const [appointments, setAppointments] = useState([]);
@@ -22,6 +22,51 @@ export default function BookingsDashboard() {
         status: '',
         notes: ''
     });
+
+    const [stats, setStats] = useState({
+        pendingBookings: 0,
+        confirmedBookings: 0,
+        completedBookings: 0,
+        cancelledBookings: 0
+    });
+
+    // Modify your getAppointments function to calculate stats
+    const calculateStats = (bookings) => {
+        return {
+            pendingBookings: bookings.filter(b => b.status === 'PENDING').length,
+            confirmedBookings: bookings.filter(b => b.status === 'CONFIRMED').length,
+            completedBookings: bookings.filter(b => b.status === 'COMPLETED').length,
+            cancelledBookings: bookings.filter(b => b.status === 'CANCELLED').length
+        };
+    };
+
+    const getAppointments = async () => {
+        try {
+            setLoading(true);
+            const response = await fetch('/api/bookings');
+            if (!response.ok) throw new Error('Failed to fetch appointments');
+            const { data } = await response.json();
+
+            // Make sure data is an array
+            const appointments = Array.isArray(data) ? data : [];
+            setAppointments(appointments);
+
+            // Calculate stats from appointments
+            const stats = {
+                pendingBookings: appointments.filter(b => b.status === 'PENDING').length,
+                confirmedBookings: appointments.filter(b => b.status === 'CONFIRMED').length,
+                completedBookings: appointments.filter(b => b.status === 'COMPLETED').length,
+                cancelledBookings: appointments.filter(b => b.status === 'CANCELLED').length
+            };
+
+            setStats(stats);
+        } catch (error) {
+            setError(error.message);
+            setAppointments([]);
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const onClose = () => {
         setEditingId(null);
@@ -70,10 +115,21 @@ export default function BookingsDashboard() {
 
             if (!response.ok) throw new Error('Failed to update status');
 
-            const { data } = await response.json();
-            setAppointments(current =>
-                current.map(apt => apt.id === id ? { ...apt, status: newStatus } : apt)
+            const updatedAppointments = appointments.map(apt =>
+                apt.id === id ? { ...apt, status: newStatus } : apt
             );
+
+            setAppointments(updatedAppointments);
+
+            // Recalculate stats after status change
+            const newStats = {
+                pendingBookings: updatedAppointments.filter(b => b.status === 'PENDING').length,
+                confirmedBookings: updatedAppointments.filter(b => b.status === 'CONFIRMED').length,
+                completedBookings: updatedAppointments.filter(b => b.status === 'COMPLETED').length,
+                cancelledBookings: updatedAppointments.filter(b => b.status === 'CANCELLED').length
+            };
+
+            setStats(newStats);
             setUpdateMessage('Status updated successfully');
             setTimeout(() => setUpdateMessage(''), 3000);
         } catch (error) {
@@ -115,21 +171,6 @@ export default function BookingsDashboard() {
         setError(null);
     };
 
-    const getAppointments = async () => {
-        try {
-            setLoading(true);
-            const response = await fetch('/api/bookings');
-            if (!response.ok) throw new Error('Failed to fetch appointments');
-            const { data } = await response.json();
-            setAppointments(Array.isArray(data) ? data : []);
-        } catch (error) {
-            setError(error.message);
-            setAppointments([]);
-        } finally {
-            setLoading(false);
-        }
-    };
-
     useEffect(() => {
         getAppointments();
         const interval = setInterval(getAppointments, 30000);
@@ -162,6 +203,30 @@ export default function BookingsDashboard() {
                     <h1 className="text-3xl font-bold text-primary">Appointment Dashboard</h1>
                     <p className="text-gray-600 mt-1">Total Appointments: {appointments.length}</p>
                 </header>
+
+                {/* Booking Status Cards */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
+                    {[
+                        { label: 'pending', value: stats.pendingBookings, color: 'yellow', icon: FaClock },
+                        { label: 'confirmed', value: stats.confirmedBookings, color: 'green', icon: FaCheck },
+                        { label: 'complete', value: stats.completedBookings, color: 'blue', icon: FaCheckDouble },
+                        { label: 'cancelled', value: stats.cancelledBookings, color: 'red', icon: FaTimes }
+                    ].map((status, index) => (
+                        <div key={index} className="bg-white p-4 rounded-xl shadow">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <p className="text-sm text-gray-600">{status.label}</p>
+                                    <p className={`text-xl font-bold text-${status.color}-500`}>
+                                        {status.value}
+                                    </p>
+                                </div>
+                                <div className={`bg-${status.color}-100 p-2 rounded-lg`}>
+                                    <status.icon className={`text-${status.color}-500`} />
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
 
                 {error && (
                     <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">

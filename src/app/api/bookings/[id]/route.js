@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
 // GET - Fetch single booking
-export async function GET(request, { params }) {
+export async function GET({ params }) {
     try {
         const id = params?.id;
 
