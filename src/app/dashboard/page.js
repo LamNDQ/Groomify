@@ -32,10 +32,6 @@ export default function Dashboard() {
                         totalBookings: dashboardStats.totalBookings,
                         totalContacts: dashboardStats.totalContacts,
                         totalFaqs: dashboardStats.totalFaqs,
-                        pendingBookings: dashboardStats.pendingBookings,
-                        confirmedBookings: dashboardStats.confirmedBookings,
-                        completedBookings: dashboardStats.completedBookings,
-                        cancelledBookings: dashboardStats.cancelledBookings
                     });
 
                     setRecentBookings(bookings);
@@ -136,29 +132,6 @@ export default function Dashboard() {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {/* Bookings Section */}
                     <div className="bg-white rounded-xl shadow p-5">
-                        {/* Booking Status Cards */}
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-                            {[
-                                { label: 'pending', value: stats.pendingBookings, color: 'yellow', icon: FaClock },
-                                { label: 'confirmed', value: stats.confirmedBookings, color: 'green', icon: FaCheck },
-                                { label: 'complete', value: stats.completedBookings, color: 'blue', icon: FaCheckDouble },
-                                { label: 'cancelled', value: stats.cancelledBookings, color: 'red', icon: FaTimes }
-                            ].map((status, index) => (
-                                <div key={index} className="bg-white p-4 rounded-xl shadow">
-                                    <div className="flex items-center justify-between">
-                                        <div>
-                                            <p className="text-sm text-gray-600">{status.label}</p>
-                                            <p className={`text-xl font-bold text-${status.color}-500`}>
-                                                {status.value}
-                                            </p>
-                                        </div>
-                                        <div className={`bg-${status.color}-100 p-2 rounded-lg`}>
-                                            <status.icon className={`text-${status.color}-500`} />
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
                         {/* Recent Bookings List */}
                         <h2 className="text-lg font-semibold text-gray-900 mb-4">Latest Bookings</h2>
                         <div className="space-y-4">

@@ -8,7 +8,7 @@ export async function GET(request) {
         const status = searchParams.get('status');
         const dateFrom = searchParams.get('dateFrom');
         const dateTo = searchParams.get('dateTo');
-        const limit = Number(searchParams.get('limit')) || 10;
+        const limit = Number(searchParams.get('limit')) || 5; // Changed default to 5
 
         // Build where clause for bookings
         const where = {};
@@ -31,12 +31,24 @@ export async function GET(request) {
             if (dateTo) where.date.lte = new Date(dateTo);
         }
 
-        // Fetch all data concurrently
-        const [bookings, totalContacts, totalFaqs, recentContacts] = await Promise.all([
+        // Fetch all data concurrently including total counts
+        const [
+            recentBookings,
+            allBookings,
+            totalContacts,
+            totalFaqs,
+            recentContacts
+        ] = await Promise.all([
+            // Recent bookings (limited)
             prisma.booking.findMany({
                 where,
                 take: limit,
                 orderBy: { createdAt: 'desc' }
+            }),
+            // All bookings for stats
+            prisma.booking.findMany({
+                where: {},
+                select: { status: true }
             }),
             prisma.contact.count(),
             prisma.faq.count(),
@@ -46,19 +58,19 @@ export async function GET(request) {
             })
         ]);
 
-        // Calculate booking stats
-        const pendingBookings = bookings.filter(b => b.status === 'PENDING').length;
-        const confirmedBookings = bookings.filter(b => b.status === 'CONFIRMED').length;
-        const completedBookings = bookings.filter(b => b.status === 'COMPLETED').length;
-        const cancelledBookings = bookings.filter(b => b.status === 'CANCELLED').length;
+        // Calculate booking stats from all bookings
+        const pendingBookings = allBookings.filter(b => b.status === 'PENDING').length;
+        const confirmedBookings = allBookings.filter(b => b.status === 'CONFIRMED').length;
+        const completedBookings = allBookings.filter(b => b.status === 'COMPLETED').length;
+        const cancelledBookings = allBookings.filter(b => b.status === 'CANCELLED').length;
 
         return NextResponse.json({
             success: true,
             data: {
-                bookings,
+                bookings: recentBookings,
                 recentContacts,
                 stats: {
-                    totalBookings: bookings.length,
+                    totalBookings: allBookings.length,
                     totalContacts,
                     totalFaqs,
                     pendingBookings,
