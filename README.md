@@ -7,6 +7,10 @@ Groomify is a modern web application built with **Next.js** and **Tailwind CSS**
 [![Prisma](https://img.shields.io/badge/Prisma-5.0-green)](https://www.prisma.io/)
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Latest-blue)](https://www.postgresql.org/)
 
+Project Link: 
+Github: [https://github.com/LamNDQ/Groomify](https://github.com/LamNDQ/Groomify)
+Website: [https://groomify-e3l3.vercel.app/](https://groomify-e3l3.vercel.app/)
+
 ---
 
 ## 👥 Team Members
@@ -120,7 +124,3 @@ NEXTAUTH_URL="http://localhost:3000"
 EMAIL_SERVER_USER="your-email@gmail.com"
 EMAIL_SERVER_PASSWORD="your-email-password"
 ```
-
----
-
-Project Link: [https://github.com/LamNDQ/Groomify](https://github.com/LamNDQ/Groomify)
