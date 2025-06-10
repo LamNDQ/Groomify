@@ -67,7 +67,6 @@ Website: [https://groomify-e3l3.vercel.app/](https://groomify-e3l3.vercel.app/)
 ### Frontend
 - **Next.js 14** - React framework
 - **Tailwind CSS** - Styling
-- **React Hook Form** - Form handling
 - **React Icons** - UI icons
 - **React Hot Toast** - Notifications
 
@@ -104,7 +103,7 @@ Website: [https://groomify-e3l3.vercel.app/](https://groomify-e3l3.vercel.app/)
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/groomify.git
+git clone https://github.com/LamNDQ/groomify.git
 cd groomify
 
 # Install dependencies
