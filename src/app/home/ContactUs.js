@@ -32,7 +32,12 @@ export default function ContactPage() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify({
+                    name: formData.name.trim(),
+                    email: formData.email.trim(),
+                    subject: formData.subject.trim(),
+                    message: formData.message.trim()
+                }),
             });
 
             const data = await response.json();
@@ -40,8 +45,9 @@ export default function ContactPage() {
             if (response.ok) {
                 setNotification({
                     type: 'success',
-                    message: 'Tin nhắn của bạn đã được gửi thành công! Chúng tôi sẽ phản hồi sớm nhất có thể.'
+                    message: 'Cảm ơn bạn đã liên hệ với chúng tôi! Chúng tôi đã nhận được tin nhắn của bạn và sẽ phản hồi trong thời gian sớm nhất (24-48 giờ làm việc).'
                 });
+                // Reset form
                 setFormData({
                     name: '',
                     email: '',
@@ -49,18 +55,17 @@ export default function ContactPage() {
                     message: ''
                 });
             } else {
-                setNotification({
-                    type: 'error',
-                    message: data.error || 'Có lỗi xảy ra. Vui lòng thử lại.'
-                });
+                throw new Error(data.error || 'Có lỗi xảy ra khi gửi tin nhắn');
             }
         } catch (error) {
             setNotification({
                 type: 'error',
-                message: 'Không thể kết nối đến server. Vui lòng thử lại sau.'
+                message: error.message || 'Không thể kết nối đến máy chủ. Vui lòng thử lại sau.'
             });
         } finally {
             setLoading(false);
+            // Auto-hide notification after 5 seconds
+            setTimeout(() => setNotification(null), 5000);
         }
     };
 
@@ -198,6 +203,28 @@ export default function ContactPage() {
                         </div>
                     </form>
                 </div>
+                {notification && (
+                    <div className={`fixed bottom-4 right-4 p-4 rounded-lg shadow-xl max-w-md z-50 ${notification.type === 'success' ? 'bg-green-100' : 'bg-red-100'
+                        } animate-fade-in`}>
+                        <div className="flex items-center space-x-3">
+                            {notification.type === 'success' ? (
+                                <FaCheckCircle className="text-green-500 text-xl flex-shrink-0" />
+                            ) : (
+                                <FaExclamationTriangle className="text-red-500 text-xl flex-shrink-0" />
+                            )}
+                            <div>
+                                <h3 className={`font-semibold ${notification.type === 'success' ? 'text-green-800' : 'text-red-800'
+                                    }`}>
+                                    {notification.type === 'success' ? 'Gửi thành công!' : 'Lỗi'}
+                                </h3>
+                                <p className={`text-sm ${notification.type === 'success' ? 'text-green-600' : 'text-red-600'
+                                    }`}>
+                                    {notification.message}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
