@@ -200,9 +200,14 @@ export default function BookingModal({ isOpen, onClose }) {
                                 value={formData.service}
                                 onChange={handleChange}
                                 required
-                                className="w-full p-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                             >
-                                {/* ...existing options... */}
+                                <option value="">Select service</option>
+                                <option value="basic-wash">Basic Wash ($25)</option>
+                                <option value="full-grooming">Full Grooming ($45)</option>
+                                <option value="nail-trimming">Nail Trimming ($15)</option>
+                                <option value="teeth-cleaning">Teeth Cleaning ($30)</option>
+                                <option value="flea-treatment">Flea Treatment ($35)</option>
                             </select>
                         </div>
 
@@ -232,9 +237,16 @@ export default function BookingModal({ isOpen, onClose }) {
                                     value={formData.time}
                                     onChange={handleChange}
                                     required
-                                    className="w-full p-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                                 >
-                                    {/* ...existing options... */}
+                                    <option value="">Select time</option>
+                                    <option value="09:00">9:00 AM</option>
+                                    <option value="10   :00">10:00 AM</option>
+                                    <option value="11:00">11:00 AM</option>
+                                    <option value="13:00">1:00 PM</option>
+                                    <option value="14:00">2:00 PM</option>
+                                    <option value="15:00">3:00 PM</option>
+                                    <option value="16:00">4:00 PM</option>
                                 </select>
                             </div>
                         </div>
