@@ -77,17 +77,17 @@ export default function BookingModal({ isOpen, onClose }) {
     }
     return (
         <div
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 z-50 overflow-y-auto"
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-start md:items-center justify-center p-2 sm:p-4 z-50 overflow-y-auto"
             onClick={onClose}
         >
             <div
-                className="relative bg-white rounded-lg w-full max-w-3xl mx-auto my-4 shadow-xl"
+                className="relative bg-white rounded-lg w-full max-w-3xl mx-auto my-4 shadow-xl max-h-[90vh] overflow-y-auto"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Close button */}
                 <button
                     onClick={onClose}
-                    className="absolute right-4 top-4 text-gray-400 hover:text-gray-600"
+                    className="absolute right-4 top-4 text-gray-400 hover:text-gray-600 z-10"
                 >
                     <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

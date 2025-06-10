@@ -4,39 +4,51 @@ import { prisma } from '@/lib/prisma'
 // GET - Fetch all bookings
 export async function GET(request) {
     try {
-        const { searchParams } = new URL(request.url)
-        const status = searchParams.get('status')
-        const limit = searchParams.get('limit')
+        const { searchParams } = new URL(request.url);
+        const search = searchParams.get('search');
+        const status = searchParams.get('status');
+        const dateFrom = searchParams.get('dateFrom');
+        const dateTo = searchParams.get('dateTo');
+        const limit = Number(searchParams.get('limit')) || 10;
 
-        let whereClause = {}
-        if (status && status !== 'all') {
-            whereClause.status = status
+        // Build where clause
+        const where = {};
+
+        if (search) {
+            where.OR = [
+                { petName: { contains: search, mode: 'insensitive' } },
+                { ownerName: { contains: search, mode: 'insensitive' } },
+                { ownerEmail: { contains: search, mode: 'insensitive' } }
+            ];
+        }
+
+        if (status) {
+            where.status = status;
+        }
+
+        if (dateFrom || dateTo) {
+            where.date = {};
+            if (dateFrom) where.date.gte = new Date(dateFrom);
+            if (dateTo) where.date.lte = new Date(dateTo);
         }
 
         const bookings = await prisma.booking.findMany({
-            where: whereClause,
-            orderBy: {
-                createdAt: 'desc'
-            },
-            ...(limit && { take: parseInt(limit) })
-        })
+            where,
+            take: limit,
+            orderBy: { createdAt: 'desc' }
+        });
 
         return NextResponse.json({
             success: true,
-            data: bookings,
-            count: bookings.length
-        })
+            data: bookings
+        });
 
     } catch (error) {
-        console.error('Error fetching bookings:', error)
-        return NextResponse.json(
-            {
-                success: false,
-                error: 'Failed to fetch bookings',
-                details: error.message
-            },
-            { status: 500 }
-        )
+        console.error('Error fetching bookings:', error);
+        return NextResponse.json({
+            success: false,
+            error: 'Failed to fetch bookings'
+        }, { status: 500 });
     }
 }
 
