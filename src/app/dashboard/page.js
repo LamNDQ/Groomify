@@ -168,6 +168,7 @@ export default function Dashboard() {
                                         <div>
                                             <p className="font-medium text-gray-900">{contact.name}</p>
                                             <p className="text-sm text-gray-600">{contact.email}</p>
+                                            <p className="text-sm text-gray-600">{contact.message}</p>
                                             <p className="text-xs text-gray-500">{formatDate(contact.createdAt)}</p>
                                         </div>
                                         <div className="text-sm text-gray-500 max-w-[40%] text-right">
