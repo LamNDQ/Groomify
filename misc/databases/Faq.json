@@ -1,0 +1,47 @@
+[
+    {
+        "id": 1,
+        "question": "How long does a grooming session take?",
+        "answer": "It depends on the package and your pet's needs, but most sessions take 1.5–3 hours.",
+        "category": "",
+        "isActive": true,
+        "createdAt": "2025-06-07 18:44:31.247",
+        "updatedAt": "2025-06-07 18:44:31.247"
+    },
+    {
+        "id": 2,
+        "question": "Do you groom cats as well as dogs?",
+        "answer": "Absolutely! We love pampering both cats and dogs.",
+        "category": "",
+        "isActive": true,
+        "createdAt": "2025-06-07 18:44:44.33",
+        "updatedAt": "2025-06-07 18:44:44.33"
+    },
+    {
+        "id": 3,
+        "question": "What if my pet is nervous or anxious ?",
+        "answer": "Our groomers are trained to handle nervous pets with patience and care. Let us know, and we'll take extra time to make them comfortable.",
+        "category": "",
+        "isActive": true,
+        "createdAt": "2025-06-07 18:44:57.931",
+        "updatedAt": "2025-06-07 19:10:48.267"
+    },
+    {
+        "id": 4,
+        "question": "Can I stay with my pet during grooming?",
+        "answer": "For safety and to keep your pet focused, we recommend waiting in our cozy lounge area.",
+        "category": "",
+        "isActive": true,
+        "createdAt": "2025-06-07 18:45:09.671",
+        "updatedAt": "2025-06-07 18:45:09.671"
+    },
+    {
+        "id": 7,
+        "question": "How often should I groom my pet?",
+        "answer": "It depends on their breed and coat type, but most pets benefit from grooming every 4–6 weeks.",
+        "category": "",
+        "isActive": true,
+        "createdAt": "2025-06-08 00:38:19.484",
+        "updatedAt": "2025-06-08 00:38:19.484"
+    }
+]
