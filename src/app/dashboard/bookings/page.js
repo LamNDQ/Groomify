@@ -19,6 +19,7 @@ export default function BookingsDashboard() {
         service: '',
         date: '',
         time: '',
+        status: '',
         notes: ''
     });
 
@@ -51,8 +52,35 @@ export default function BookingsDashboard() {
             service: appointment.service,
             date: new Date(appointment.date).toISOString().split('T')[0],
             time: appointment.time,
+            status: appointment.status || 'PENDING',
             notes: appointment.notes || ''
         });
+    };
+
+    const handleStatusChange = async (id, newStatus) => {
+        try {
+            setLoading(true);
+            const response = await fetch(`/api/bookings/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: newStatus })
+            });
+
+            if (!response.ok) throw new Error('Failed to update status');
+
+            const { data } = await response.json();
+            setAppointments(current =>
+                current.map(apt => apt.id === id ? { ...apt, status: newStatus } : apt)
+            );
+            setUpdateMessage('Status updated successfully');
+            setTimeout(() => setUpdateMessage(''), 3000);
+        } catch (error) {
+            setError(error.message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleUpdate = async () => {
@@ -295,6 +323,25 @@ export default function BookingsDashboard() {
 
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-1">
+                                            Status *
+                                        </label>
+                                        <select
+                                            name="status"
+                                            value={editForm.status}
+                                            onChange={handleChange}
+                                            required
+                                            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+                                        >
+                                            <option value="PENDING">Pending</option>
+                                            <option value="CONFIRMED">Confirmed</option>
+                                            <option value="COMPLETED">Completed</option>
+                                            <option value="CANCELLED">Cancelled</option>
+                                        </select>
+                                    </div>
+                                    <div></div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-1">
                                             Special Notes
                                         </label>
                                         <textarea
@@ -342,7 +389,7 @@ export default function BookingsDashboard() {
                         <table className="min-w-full table-auto border-collapse rounded-lg overflow-hidden shadow-lg bg-white">
                             <thead className="bg-primaryLight text-primary text-sm font-semibold uppercase tracking-wide">
                                 <tr>
-                                    {['Pet Name', 'Type', 'Owner', 'Email', 'Phone', 'Date', 'Time', 'Service', 'Notes', 'Actions'].map((header, idx) => (
+                                    {['Pet Name', 'Type', 'Owner', 'Email', 'Phone', 'Date', 'Time', 'Service', 'Status', 'Notes', 'Actions'].map((header, idx) => (
                                         <th key={idx} className="px-4 py-3 border-b border-gray-200">{header}</th>
                                     ))}
                                 </tr>
@@ -361,6 +408,22 @@ export default function BookingsDashboard() {
                                         <td className="px-4 py-2">{new Date(appointment.date).toLocaleDateString()}</td>
                                         <td className="px-4 py-2">{appointment.time}</td>
                                         <td className="px-4 py-2 text-[var(--first-color)] uppercase font-medium">{appointment.service}</td>
+                                        <td className="px-4 py-2">
+                                            <select
+                                                value={appointment.status || 'PENDING'}
+                                                onChange={(e) => handleStatusChange(appointment.id, e.target.value)}
+                                                className={`text-sm rounded-full px-2 py-1 font-medium ${appointment.status === 'CONFIRMED' ? 'bg-green-100 text-green-800' :
+                                                    appointment.status === 'COMPLETED' ? 'bg-blue-100 text-blue-800' :
+                                                        appointment.status === 'CANCELLED' ? 'bg-red-100 text-red-800' :
+                                                            'bg-yellow-100 text-yellow-800'
+                                                    }`}
+                                            >
+                                                <option value="PENDING">Pending</option>
+                                                <option value="CONFIRMED">Confirmed</option>
+                                                <option value="COMPLETED">Completed</option>
+                                                <option value="CANCELLED">Cancelled</option>
+                                            </select>
+                                        </td>
                                         <td className="px-4 py-2">{appointment.notes || '-'}</td>
                                         <td className="px-4 py-2 text-center">
                                             <button

@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
-// PUT - Update booking
-export async function PUT(request, { params }) {
+// GET - Fetch single booking
+export async function GET(request, { params }) {
     try {
         const id = params?.id;
 
@@ -13,7 +13,39 @@ export async function PUT(request, { params }) {
             }, { status: 400 });
         }
 
+        const booking = await prisma.booking.findUnique({
+            where: { id }
+        });
+
+        if (!booking) {
+            return NextResponse.json({
+                success: false,
+                error: 'Booking not found'
+            }, { status: 404 });
+        }
+
+        return NextResponse.json({ success: true, data: booking });
+
+    } catch (error) {
+        return NextResponse.json({
+            success: false,
+            error: 'Failed to fetch booking'
+        }, { status: 500 });
+    }
+}
+
+// PUT - Update booking
+export async function PUT(request, { params }) {
+    try {
+        const id = params?.id;
         const body = await request.json();
+
+        if (!id) {
+            return NextResponse.json({
+                success: false,
+                error: 'Booking ID is required'
+            }, { status: 400 });
+        }
 
         const existingBooking = await prisma.booking.findUnique({
             where: { id }
@@ -26,19 +58,24 @@ export async function PUT(request, { params }) {
             }, { status: 404 });
         }
 
+        // Prepare update data
+        const updateData = {
+            ...(body.petName && { petName: body.petName.trim() }),
+            ...(body.petType && { petType: body.petType.trim() }),
+            ...(body.ownerName && { ownerName: body.ownerName.trim() }),
+            ...(body.ownerEmail && { ownerEmail: body.ownerEmail.trim() }),
+            ...(body.ownerPhone && { ownerPhone: body.ownerPhone.trim() }),
+            ...(body.service && { service: body.service.trim() }),
+            ...(body.date && { date: new Date(body.date) }),
+            ...(body.time && { time: body.time.trim() }),
+            ...(body.status && { status: body.status }),
+            notes: body.notes?.trim() ?? existingBooking.notes,
+            updatedAt: new Date()
+        };
+
         const updatedBooking = await prisma.booking.update({
             where: { id },
-            data: {
-                petName: body.petName,
-                petType: body.petType,
-                ownerName: body.ownerName,
-                ownerEmail: body.ownerEmail,
-                ownerPhone: body.ownerPhone,
-                service: body.service,
-                date: new Date(body.date),
-                time: body.time,
-                notes: body.notes || null
-            }
+            data: updateData
         });
 
         return NextResponse.json({
@@ -51,15 +88,14 @@ export async function PUT(request, { params }) {
         return NextResponse.json({
             success: false,
             error: 'Failed to update booking',
-            details: error.message
+            details: process.env.NODE_ENV === 'development' ? error.message : undefined
         }, { status: 500 });
     }
 }
 
 // DELETE - Delete booking
-export async function DELETE(request, context) {
+export async function DELETE(request, { params }) {
     try {
-        const params = await context.params;
         const id = params?.id;
 
         if (!id) {
@@ -67,6 +103,17 @@ export async function DELETE(request, context) {
                 success: false,
                 error: 'Booking ID is required'
             }, { status: 400 });
+        }
+
+        const booking = await prisma.booking.findUnique({
+            where: { id }
+        });
+
+        if (!booking) {
+            return NextResponse.json({
+                success: false,
+                error: 'Booking not found'
+            }, { status: 404 });
         }
 
         await prisma.booking.delete({
@@ -83,7 +130,7 @@ export async function DELETE(request, context) {
         return NextResponse.json({
             success: false,
             error: 'Failed to delete booking',
-            details: error.message
+            details: process.env.NODE_ENV === 'development' ? error.message : undefined
         }, { status: 500 });
     }
 }
