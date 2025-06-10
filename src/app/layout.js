@@ -79,7 +79,17 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <meta name="google-site-verification" content="IEtHBMtHs1T0kaStqfMi3qT0TeUYbHFbxhNX4o6aGj0" />
+        <meta name="theme-color" content="#4F46E5" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="Groomify" />
+      </head>
       <body className={`${inter.variable} antialiased`}>
+        <GoogleAnalytics GA_MEASUREMENT_ID={"G-5Z50EEXG7L"} />
         {children}
       </body>
     </html>
